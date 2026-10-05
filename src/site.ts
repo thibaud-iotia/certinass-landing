@@ -2,7 +2,8 @@ import app from './version.json';
 
 export const VERSION = app.version;
 
-export const REPO_URL = 'https://github.com/thibaud-iotia/certinass';
+// Dépôt public des installeurs : le dépôt du code est privé, ses liens renvoient une 404 aux visiteurs.
+export const REPO_URL = 'https://github.com/thibaud-iotia/certinass-releases';
 export const RELEASES_URL = `${REPO_URL}/releases/latest`;
 export const ASSISTANT_DOC_URL = `${REPO_URL}/blob/main/docs/features/v0.7.0-assistant-ia.md`;
 
