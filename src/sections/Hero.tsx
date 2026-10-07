@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { captures } from '../captures';
 import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
-import { osName, RELEASES_URL, REPO_URL, VERSION, type Os } from '../site';
+import { downloadUrl, osName, REPO_URL, VERSION, type Os } from '../site';
 
 const LINKS = [
   { href: '#assistant', label: 'Assistant IA' },
@@ -55,7 +55,7 @@ export function Hero({ os }: { os: Os }) {
             <span className="only-mobile">Parlez-lui</span> en langage courant.
           </p>
           <div className="hero-actions">
-            <Button href={RELEASES_URL} size="lg">
+            <Button href={downloadUrl(os)} size="lg">
               <span className="only-desktop">Télécharger pour {osName(os)}</span>
               <span className="only-mobile">Télécharger · v{VERSION}</span>
             </Button>

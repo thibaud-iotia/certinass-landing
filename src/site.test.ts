@@ -1,5 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { detectOs } from './site';
+import { detectOs, downloadUrl, VERSION } from './site';
+
+describe('downloadUrl', () => {
+  it("pointe directement sur l'installeur de la version affichée", () => {
+    expect(downloadUrl('windows')).toBe(
+      `https://github.com/thibaud-iotia/certinass-releases/releases/download/v${VERSION}/CertiNass-${VERSION}-win.exe`,
+    );
+    expect(downloadUrl('linux')).toMatch(new RegExp(`/v${VERSION}/CertiNass-${VERSION}-linux-x86_64\\.AppImage$`));
+  });
+
+  it('laisse le choix du .dmg sur macOS', () => {
+    expect(downloadUrl('macos')).toMatch(/\/releases\/latest$/);
+  });
+});
 
 describe('detectOs', () => {
   it('reconnaît Windows, macOS et Linux', () => {

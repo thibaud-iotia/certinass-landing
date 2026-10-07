@@ -1,5 +1,5 @@
 import { Button } from '../components/Button';
-import { DOWNLOADS, RELEASES_URL, REPO_URL, VERSION, type Os } from '../site';
+import { DOWNLOADS, REPO_URL, VERSION, type Os } from '../site';
 
 export function Download({ os }: { os: Os }) {
   return (
@@ -14,7 +14,7 @@ export function Download({ os }: { os: Os }) {
             <div key={download.os} className="download-card">
               <b>{download.name}</b>
               <div className="formats">{download.formats}</div>
-              <Button href={RELEASES_URL} variant={download.os === os ? 'primary' : 'secondary'} block>
+              <Button href={download.url} variant={download.os === os ? 'primary' : 'secondary'} block>
                 <span className="only-desktop">Télécharger</span>
                 <span className="only-mobile">{download.name}</span>
               </Button>
