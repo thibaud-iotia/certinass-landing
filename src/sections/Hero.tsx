@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { captures } from '../captures';
 import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
-import { downloadUrl, osName, REPO_URL, VERSION, type Os } from '../site';
+import { href } from '../route';
+import { PRICE_LABEL, VERSION } from '../site';
 
 const LINKS = [
   { href: '#assistant', label: 'Assistant IA' },
@@ -11,10 +12,10 @@ const LINKS = [
   { href: '#partages', label: 'Partages', only: 'desktop' },
   // Mobile : import et partages sont regroupés dans une seule section.
   { href: '#modules', label: 'Modules', only: 'mobile' },
-  { href: REPO_URL, label: 'GitHub' },
+  { href: '#tarif', label: 'Tarif' },
 ];
 
-export function Hero({ os }: { os: Os }) {
+export function Hero({ buyHref, signedIn }: { buyHref: string; signedIn: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
 
@@ -39,8 +40,11 @@ export function Hero({ os }: { os: Os }) {
                 {link.label}
               </a>
             ))}
-            <Button href="#telecharger" size="sm" onClick={closeMenu}>
-              Télécharger
+            <a href={href(signedIn ? 'acces' : 'connexion')} className="nav-account" onClick={closeMenu}>
+              {signedIn ? 'Mon compte' : 'Se connecter'}
+            </a>
+            <Button href={buyHref} size="sm" onClick={closeMenu}>
+              Acheter · {PRICE_LABEL}
             </Button>
           </div>
         </nav>
@@ -50,22 +54,25 @@ export function Hero({ os }: { os: Os }) {
           <h1>
             Votre NAS Synology, enfin agréable<span className="only-desktop"> à utiliser</span>.
           </h1>
-          <p className="hero-lead">
-            Trouvez votre NAS, connectez-vous, gérez vos fichiers. <span className="only-desktop">Et parlez-lui</span>
-            <span className="only-mobile">Parlez-lui</span> en langage courant.
+          <p className="hero-lead only-desktop">
+            CertiNass est une application de bureau pour gérer les fichiers de votre NAS Synology : navigation,
+            recherche, édition, partage — et un assistant IA qui comprend le langage courant.
+          </p>
+          <p className="hero-lead only-mobile">
+            Application de bureau pour gérer les fichiers de votre NAS Synology — avec un assistant IA en langage
+            courant.
           </p>
           <div className="hero-actions">
-            <Button href={downloadUrl(os)} size="lg">
-              <span className="only-desktop">Télécharger pour {osName(os)}</span>
-              <span className="only-mobile">Télécharger · v{VERSION}</span>
+            <Button href={buyHref} size="lg">
+              <span className="only-desktop">Obtenir CertiNass · {PRICE_LABEL}</span>
+              <span className="only-mobile">Obtenir · {PRICE_LABEL} une fois</span>
             </Button>
-            <Button href="#telecharger" variant="secondary" size="lg" className="only-desktop">
-              Autres systèmes
+            <Button href="#cle-en-main" variant="secondary" size="lg" className="only-desktop">
+              Voir comment ça marche
             </Button>
           </div>
-          <div className="hero-note only-desktop">Windows · macOS · Linux — DSM 7 requis</div>
-          <div className="hero-note only-mobile">
-            {osName(os)} · <a href="#telecharger">Autres systèmes</a>
+          <div className="hero-note">
+            Paiement unique, sans abonnement<span className="only-desktop"> · Windows · macOS · Linux · DSM 7 requis</span>
           </div>
         </div>
 

@@ -1,16 +1,20 @@
 import { describe, expect, it } from 'vitest';
-import { detectOs, downloadUrl, VERSION } from './site';
+import { detectOs, DOWNLOADS, formatAmount } from './site';
 
-describe('downloadUrl', () => {
-  it("pointe directement sur l'installeur de la version affichée", () => {
-    expect(downloadUrl('windows')).toBe(
-      `https://github.com/thibaud-iotia/certinass-releases/releases/download/v${VERSION}/CertiNass-${VERSION}-win.exe`,
-    );
-    expect(downloadUrl('linux')).toMatch(new RegExp(`/v${VERSION}/CertiNass-${VERSION}-linux-x86_64\\.AppImage$`));
+describe('DOWNLOADS', () => {
+  it('ne porte plus aucune adresse publique : seul le backend délivre les installeurs', () => {
+    expect(JSON.stringify(DOWNLOADS)).not.toMatch(/https?:/);
   });
 
   it('laisse le choix du .dmg sur macOS', () => {
-    expect(downloadUrl('macos')).toMatch(/\/releases\/latest$/);
+    const macos = DOWNLOADS.find((download) => download.os === 'macos')!;
+    expect(macos.installers.map((installer) => installer.id)).toEqual(['macos-arm64', 'macos-x64']);
+  });
+});
+
+describe('formatAmount', () => {
+  it('affiche le montant payé, en centimes, dans sa devise', () => {
+    expect(formatAmount(3900, 'EUR').replace(/\s/g, ' ')).toBe('39,00 €');
   });
 });
 

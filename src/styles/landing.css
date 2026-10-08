@@ -1,4 +1,4 @@
-/* Page de présentation — mesures reprises de la maquette « CertiNass Landing » (1a bureau 1280 px, 1b mobile 390 px). */
+/* Page de présentation — mesures reprises de la maquette « CertiNass Achat » (1a bureau 1280 px, 1g mobile 390 px). */
 
 :root {
   --gutter: clamp(20px, 5vw, 64px);
@@ -83,6 +83,7 @@ img { display: block; max-width: 100%; }
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a:not(.btn) { color: #B6B6C8; }
 .nav-links a:not(.btn):hover { color: #F4F4F8; }
+.nav-links a.nav-account { color: #fff; font-weight: 600; }
 .nav-toggle { border: none; background: none; color: inherit; font-size: 24px; line-height: 1; padding: 0; cursor: pointer; }
 
 .hero-copy {
@@ -91,7 +92,7 @@ img { display: block; max-width: 100%; }
 .hero h1 {
   font: 700 clamp(40px, 6vw, 76px)/1.02 var(--font-display); letter-spacing: -.03em; max-width: 900px; text-wrap: balance;
 }
-.hero-lead { max-width: 600px; font-size: 20px; line-height: 1.55; color: #B6B6C8; text-wrap: balance; }
+.hero-lead { max-width: 680px; font-size: 20px; line-height: 1.55; color: #B6B6C8; text-wrap: balance; }
 .hero-actions { display: flex; gap: 14px; align-items: center; margin-top: 6px; }
 .hero-note { font-size: 14px; color: #7E7E96; }
 /* La fenêtre dépasse du bas de la section : seul le haut de la capture est visible. */
@@ -136,16 +137,33 @@ img { display: block; max-width: 100%; }
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; font-weight: 600; font-size: 16px; }
 .tiles li { border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
 
-/* ---------- Télécharger ---------- */
-.download { background: var(--grad-hero), #08080C; text-align: center; }
-.download .title-xl { margin-bottom: 36px; }
-.download-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left; }
-.download-card {
-  background: #191926; border: 1px solid #2E2E42; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 14px;
+/* ---------- Tarif ---------- */
+.pricing { background: var(--grad-hero), #08080C; text-align: center; }
+.pricing > .wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.pricing .lead { margin-bottom: 24px; line-height: normal; }
+.price-card {
+  width: 100%; max-width: 880px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; text-align: left;
+  background: #191926; border: 1px solid #2E2E42; border-radius: 28px; box-shadow: 0 0 80px rgba(255, 61, 87, .2);
 }
-.download-card b { font: 700 22px var(--font-display); }
-.formats { font: 13px var(--font-mono); color: #B6B6C8; }
-.requirements { margin: 28px 0 4px; font-size: 16px; color: #B6B6C8; }
+.price-offer { padding: 40px; display: flex; flex-direction: column; gap: 16px; }
+.price-offer > b { font: 700 22px var(--font-display); }
+.price { display: flex; align-items: baseline; gap: 10px; }
+.price-amount { font: 700 80px/1 var(--font-display); letter-spacing: -.03em; }
+.price-terms { font-size: 16px; color: #B6B6C8; }
+.price-included {
+  padding: 40px; border-left: 1px solid #2E2E42; display: flex; flex-direction: column; justify-content: center; gap: 12px;
+  font-size: 16px;
+}
+.price-included li { display: flex; }
+.price-included .check { font-weight: 700; }
+.price-steps { display: flex; align-items: center; gap: 18px; margin-top: 22px; font-size: 16px; color: #B6B6C8; }
+.price-steps li { display: flex; align-items: center; gap: 10px; }
+.price-steps li + li::before { content: "—"; color: #3B3B52; margin-right: 8px; }
+.price-step-num {
+  width: 28px; height: 28px; border-radius: 50%; background: #F5254A; color: #fff; display: grid; place-items: center;
+  font-weight: 700; font-size: 14px;
+}
+.pricing .fine-print { margin-top: -4px; }
 
 /* ---------- Pied de page ---------- */
 .footer { background: #08080C; color: var(--copy); font-size: 14px; padding-block: 24px; }
@@ -211,13 +229,14 @@ img { display: block; max-width: 100%; }
   .tiles { grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px; }
   .tiles li { border-radius: 12px; padding: 14px; }
 
-  .download { background: var(--grad-hero), #08080C; text-align: left; }
-  .download > .wrap { gap: 12px; }
-  .download .title-xl { margin-bottom: 6px; line-height: 1.1; }
-  .download-grid { grid-template-columns: 1fr; gap: 12px; }
-  .download-card { display: contents; }
-  .download-card b, .formats { display: none; }
-  .requirements { margin: 6px 0 0; font-size: 13px; }
+  .pricing { text-align: left; }
+  .pricing > .wrap { align-items: stretch; }
+  .price-card { display: flex; flex-direction: column; gap: 12px; padding: 22px; border-radius: 20px; box-shadow: none; }
+  .price-offer, .price-included { display: contents; }
+  .price-amount { font-size: 52px; }
+  .price-terms { font-size: 14px; }
+  .price-included li { font-size: 14px; line-height: 1.8; }
+  .price-path { font-size: 13px; color: #B6B6C8; }
 
   .footer { padding-block: 18px; font-size: 13px; color: #7E7E96; }
   .footer .wrap { gap: 0; }
