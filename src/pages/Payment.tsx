@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { signOut, startCheckout } from '../account';
 import { Button } from '../components/Button';
+import { DeleteAccount } from '../components/DeleteAccount';
 import { Logo } from '../components/Logo';
 import { Stepper } from '../components/Stepper';
 import { useT } from '../i18n';
@@ -63,6 +64,7 @@ export function Payment({ account }: { account: Account }) {
           </p>
         )}
         <div className="pay-note">{t('payment.note')}</div>
+        <DeleteAccount licensed={false} />
       </main>
 
       <aside className="pay-summary">

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { downloadLink, releaseLicence, signOut } from '../account';
 import { Button } from '../components/Button';
+import { ConfirmDialog } from '../components/ConfirmDialog';
+import { DeleteAccount } from '../components/DeleteAccount';
 import { Logo } from '../components/Logo';
 import { Stepper } from '../components/Stepper';
 import { useT } from '../i18n';
@@ -16,7 +18,7 @@ export function Access({ account }: { account: Account }) {
   const { licence, refresh } = account;
   const key = licence?.licence_key ?? null;
   const [copied, setCopied] = useState(false);
-  const [release, setRelease] = useState<'idle' | 'busy' | 'done' | 'failed'>('idle');
+  const [release, setRelease] = useState<'idle' | 'confirm' | 'busy' | 'done' | 'failed'>('idle');
 
   // La clé arrive par un second webhook, parfois quelques secondes après la licence.
   useEffect(() => {
@@ -34,7 +36,6 @@ export function Access({ account }: { account: Account }) {
   };
 
   const free = () => {
-    if (!window.confirm(t('access.releaseConfirm'))) return;
     setRelease('busy');
     releaseLicence().then(
       () => setRelease('done'),
@@ -117,18 +118,26 @@ export function Access({ account }: { account: Account }) {
               {t('access.invoice')}
             </a>
           )}
-          <button type="button" className="link" disabled={!key || release === 'busy'} onClick={free}>
+          <button type="button" className="link" disabled={!key} onClick={() => setRelease('confirm')}>
             {t('access.release')}
           </button>
           {release === 'done' && <div role="status">{t('access.released')}</div>}
-          {release === 'failed' && (
-            <div className="flow-error" role="alert">
-              {t('access.releaseError')}
-            </div>
-          )}
+          <ConfirmDialog
+            open={release === 'confirm' || release === 'busy' || release === 'failed'}
+            title={t('access.releaseTitle')}
+            confirmLabel={t('access.releaseAction')}
+            busy={release === 'busy'}
+            busyLabel={t('access.releasing')}
+            error={release === 'failed' ? t('access.releaseError') : null}
+            onConfirm={free}
+            onClose={() => setRelease('idle')}
+          >
+            <p>{t('access.releaseConfirm')}</p>
+          </ConfirmDialog>
           <button type="button" className="link" onClick={() => void signOut()}>
             {t('flow.signOut')}
           </button>
+          <DeleteAccount licensed />
         </div>
       </div>
       <p className="fine-print">{t('access.unsigned')}</p>

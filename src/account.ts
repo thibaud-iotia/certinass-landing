@@ -1,6 +1,7 @@
 // Backend du site (dossier `supabase/` du dépôt de l'application) : comptes, licence, paiement, installeurs.
 import { createClient, type Session } from '@supabase/supabase-js';
 import { getLocale, t } from './i18n';
+import { href } from './route';
 import type { InstallerId } from './site';
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
@@ -75,6 +76,16 @@ export function startCheckout(): Promise<string> {
 export async function releaseLicence(): Promise<void> {
   const { error } = await backend().functions.invoke('release');
   if (error) throw error;
+}
+
+/** Supprime le compte connecté et sa licence, dont la clé est désactivée : irréversible. */
+export async function deleteAccount(): Promise<void> {
+  const { error } = await backend().functions.invoke('delete-account');
+  if (error) throw error;
+  // Retour à la page de présentation avant la déconnexion, qui renverrait sinon vers l'écran de connexion.
+  window.location.replace(href('landing'));
+  // Le compte n'existe plus côté serveur : seule la session de ce navigateur reste à effacer.
+  await backend().auth.signOut({ scope: 'local' });
 }
 
 /** Lien temporaire vers un installeur de la dernière version. */

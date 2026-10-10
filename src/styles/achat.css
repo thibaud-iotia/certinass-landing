@@ -7,6 +7,49 @@ button { font: inherit; }
 .link:hover { color: var(--text-link-hover); }
 .btn:disabled { opacity: .55; cursor: default; filter: none; transform: none; }
 .flow-error { font-size: 14px; color: var(--danger); }
+
+/* ---------- Fenêtre de confirmation et message bref ---------- */
+.dialog {
+  width: min(460px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; overflow: auto;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-raised);
+  color: var(--text-body); box-shadow: var(--shadow-xl); text-align: left;
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.dialog::backdrop { background: rgba(8, 8, 12, .72); backdrop-filter: blur(4px); transition: opacity var(--dur-base) var(--ease-out); }
+@starting-style {
+  .dialog[open] { opacity: 0; transform: translateY(12px) scale(.97); }
+  .dialog[open]::backdrop { opacity: 0; }
+}
+.dialog-body { padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.dialog-icon {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--danger-subtle); color: var(--danger); font: 700 22px var(--font-display);
+}
+.dialog h2 { font: 700 var(--fs-h3)/1.2 var(--font-display); letter-spacing: var(--ls-snug); color: var(--text-heading); }
+.dialog-text { display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.55; }
+.dialog-text ul { display: flex; flex-direction: column; gap: 6px; }
+.dialog-text li { display: flex; gap: 10px; }
+.dialog-text li::before { content: "•"; color: var(--danger); }
+.dialog-text b { color: var(--text-heading); }
+.dialog-actions { align-self: stretch; margin-top: 8px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+
+.toast-region { position: fixed; inset: auto 16px 24px; z-index: 20; display: flex; justify-content: center; pointer-events: none; }
+.toast {
+  display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: var(--radius-md); font-size: 15px;
+  background: var(--ink-800); border: 1px solid var(--ink-600); color: var(--text-hi); box-shadow: var(--shadow-lg);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+@starting-style {
+  .toast { opacity: 0; transform: translateY(12px); }
+}
+.toast-check { color: #2FE3A6; }
+@media (max-width: 480px) {
+  .dialog-actions .btn { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dialog, .dialog::backdrop, .toast { transition: none; }
+}
+
 .flow-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .flow-bar .logo { margin-right: 0; }
 
@@ -86,6 +129,8 @@ button { font: inherit; }
 .pay-main .stepper { margin-block: 8px; }
 .pay-main .lead { max-width: 620px; }
 .pay-note { font-size: 13px; color: #7E7E96; text-align: center; }
+.pay-main .account-delete { align-self: center; font-size: 13px; color: #7E7E96; }
+.pay-main .account-delete:hover { color: var(--text-link-hover); }
 .account-badge { display: flex; align-items: center; gap: 10px; font-size: 14px; min-width: 0; }
 .account-avatar {
   width: 28px; height: 28px; border-radius: 50%; flex: none; background: #FFE3E8; color: #F5254A; display: grid; place-items: center;
