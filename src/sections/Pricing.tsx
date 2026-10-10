@@ -1,7 +1,7 @@
 import { Button } from '../components/Button';
 import { LanguageSwitch } from '../components/LanguageSwitch';
 import { useT, type MessageKey } from '../i18n';
-import { priceLabel, VERSION } from '../site';
+import { VERSION } from '../site';
 
 const INCLUDED: { label: MessageKey; mobileLabel?: MessageKey }[] = [
   { label: 'pricing.includedFeatures', mobileLabel: 'pricing.includedFeaturesMobile' },
@@ -10,7 +10,7 @@ const INCLUDED: { label: MessageKey; mobileLabel?: MessageKey }[] = [
   { label: 'pricing.includedPlatforms' },
 ];
 
-const STEPS: MessageKey[] = ['pricing.stepAccount', 'pricing.stepPay', 'pricing.stepDownload'];
+const STEPS: MessageKey[] = ['pricing.stepAccount', 'pricing.stepDownload', 'pricing.stepActivate'];
 
 export function Pricing({ buyHref }: { buyHref: string }) {
   const t = useT();
@@ -25,11 +25,8 @@ export function Pricing({ buyHref }: { buyHref: string }) {
           <div className="price-offer">
             <b className="only-desktop">{t('pricing.product')}</b>
             <div className="price">
-              <span className="price-amount">{priceLabel()}</span>
-              <span className="price-terms">
-                <span className="only-desktop">{t('pricing.taxIncluded')} · </span>
-                {t('pricing.once')}
-              </span>
+              <span className="price-amount">{t('pricing.free')}</span>
+              <span className="price-terms">{t('pricing.once')}</span>
             </div>
             <Button href={buyHref} size="lg" block>
               {t('pricing.buy')}
@@ -56,7 +53,7 @@ export function Pricing({ buyHref }: { buyHref: string }) {
               <span className="check" aria-hidden="true">
                 ✓
               </span>
-              {t('pricing.refund')}
+              {t('pricing.noCard')}
             </li>
           </ul>
         </div>

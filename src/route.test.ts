@@ -12,28 +12,28 @@ describe('parseRoute', () => {
     expect(parseRoute('#tarif')).toBe('landing');
     expect(parseRoute('#/inconnu')).toBe('landing');
   });
+
+  it('ne connaît plus les écrans de paiement', () => {
+    expect(parseRoute('#/paiement')).toBe('landing');
+    expect(parseRoute('#/confirmation')).toBe('landing');
+  });
 });
 
 describe('resolveRoute', () => {
-  it('demande un compte avant le paiement et le téléchargement', () => {
-    expect(resolveRoute('paiement', 'anonymous')).toBe('compte');
+  it('demande un compte avant le téléchargement', () => {
     expect(resolveRoute('acces', 'anonymous')).toBe('connexion');
-    expect(resolveRoute('confirmation', 'anonymous')).toBe('connexion');
+    expect(resolveRoute('compte', 'anonymous')).toBe('compte');
+    expect(resolveRoute('connexion', 'anonymous')).toBe('connexion');
   });
 
-  it('envoie un compte sans licence au paiement', () => {
-    expect(resolveRoute('compte', 'unlicensed')).toBe('paiement');
-    expect(resolveRoute('connexion', 'unlicensed')).toBe('paiement');
-    expect(resolveRoute('acces', 'unlicensed')).toBe('paiement');
-  });
-
-  it('attend la licence au retour du paiement', () => {
-    expect(resolveRoute('confirmation', 'unlicensed')).toBe('confirmation');
-    expect(resolveRoute('confirmation', 'licensed')).toBe('acces');
-  });
-
-  it('ne fait pas payer deux fois', () => {
+  it('mène un compte connecté droit à son accès', () => {
     expect(resolveRoute('compte', 'licensed')).toBe('acces');
-    expect(resolveRoute('paiement', 'licensed')).toBe('acces');
+    expect(resolveRoute('connexion', 'licensed')).toBe('acces');
+    expect(resolveRoute('acces', 'licensed')).toBe('acces');
+  });
+
+  it('bêta terminée : le compte garde son écran d’accès, qui le lui dit', () => {
+    expect(resolveRoute('compte', 'unlicensed')).toBe('acces');
+    expect(resolveRoute('acces', 'unlicensed')).toBe('acces');
   });
 });

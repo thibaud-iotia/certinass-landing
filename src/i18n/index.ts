@@ -2,12 +2,12 @@
 // pour qu'ils se redessinent au changement de langue.
 import { useSyncExternalStore } from 'react';
 import { DEFAULT_LOCALE, format, isLocale, resolveLocale, type Locale, type Params } from './core';
-import { access, assistant, faq, features, flow, footer, hero, meta, nav, payment, pricing, signIn, turnKey } from './messages';
+import { access, assistant, faq, features, flow, footer, hero, meta, nav, pricing, signIn, turnKey } from './messages';
 
 export * from './core';
 
 /** Tous les messages, par domaine. */
-export const CATALOG = { meta, nav, hero, turnKey, assistant, features, pricing, faq, footer, flow, signIn, payment, access };
+export const CATALOG = { meta, nav, hero, turnKey, assistant, features, pricing, faq, footer, flow, signIn, access };
 
 type Catalog = typeof CATALOG;
 export type MessageKey = { [NS in keyof Catalog]: `${NS & string}.${keyof Catalog[NS]['fr'] & string}` }[keyof Catalog];

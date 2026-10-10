@@ -7,10 +7,11 @@ import { Footer, Pricing } from '../sections/Pricing';
 import { TurnKey } from '../sections/TurnKey';
 
 // Maquette « CertiNass Achat » : 1a (bureau, 1280 px) et 1g (mobile, 390 px) dans une seule page adaptative.
+// Bêta gratuite : le prix et le paiement de la maquette n'y figurent pas.
 
 export function Landing({ state }: { state: AccountState }) {
-  // Les boutons d'achat ouvrent le parcours ; un compte déjà titulaire d'une licence retrouve ses téléchargements.
-  const buyHref = href(state === 'licensed' ? 'acces' : 'compte');
+  // Les boutons « Obtenir » ouvrent le parcours ; un compte connecté retrouve sa clé et ses téléchargements.
+  const buyHref = href(state === 'anonymous' ? 'compte' : 'acces');
   return (
     <>
       <Hero buyHref={buyHref} signedIn={state !== 'anonymous'} />

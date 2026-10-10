@@ -121,42 +121,6 @@ button { font: inherit; }
 }
 .auth-foot { font-size: 13px; line-height: 1.6; color: #9A9AB0; text-align: center; }
 
-/* ---------- 1d : paiement ---------- */
-.pay { display: flex; min-height: 100vh; }
-.pay-main { flex: 1; min-width: 0; padding: 36px var(--gutter) 48px; display: flex; flex-direction: column; gap: 22px; }
-.pay-main .logo { color: var(--title); }
-.pay-main h1 { font: 700 32px var(--font-display); color: var(--title); }
-.pay-main .stepper { margin-block: 8px; }
-.pay-main .lead { max-width: 620px; }
-.pay-note { font-size: 13px; color: #7E7E96; text-align: center; }
-.pay-main .account-delete { align-self: center; font-size: 13px; color: #7E7E96; }
-.pay-main .account-delete:hover { color: var(--text-link-hover); }
-.account-badge { display: flex; align-items: center; gap: 10px; font-size: 14px; min-width: 0; }
-.account-avatar {
-  width: 28px; height: 28px; border-radius: 50%; flex: none; background: #FFE3E8; color: #F5254A; display: grid; place-items: center;
-  font-weight: 700;
-}
-.account-email { overflow: hidden; text-overflow: ellipsis; color: var(--title); }
-.pay-summary {
-  width: 420px; flex: none; padding: 48px 40px; background: #F8F8FB; border-left: 1px solid var(--line);
-  display: flex; flex-direction: column; gap: 18px;
-}
-.pay-summary-title { font: 700 20px var(--font-display); color: var(--title); }
-.pay-item {
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 18px;
-  background: #fff; border: 1px solid var(--line); border-radius: 16px; font-size: 13px; color: var(--copy);
-}
-.pay-item b { font-size: 16px; color: var(--title); }
-.pay-item div div { margin-top: 4px; }
-.pay-total {
-  display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--line);
-  font: 700 20px var(--font-display); color: var(--title);
-}
-.pay-tax { margin-top: -10px; font-size: 13px; color: #7E7E96; }
-.pay-checks { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; font-size: 15px; }
-.pay-checks li::before { content: "✓"; margin-right: 10px; font-weight: 700; color: #12D18E; }
-.pay-legal { margin-top: auto; font-size: 13px; color: #7E7E96; }
-
 /* ---------- 1e : accès ---------- */
 .access {
   min-height: 100vh; padding: 36px var(--gutter) 56px; background: var(--grad-hero), #08080C; text-align: center;
@@ -194,15 +158,12 @@ button { font: inherit; }
   .stepper li { gap: 6px; }
   .stepper li + li::before { width: 12px; margin-right: 2px; }
 
-  .auth, .pay { flex-direction: column; }
+  .auth { flex-direction: column; }
   .auth-aside { width: auto; padding: 20px var(--gutter) 28px; gap: 20px; }
   .auth-intro { margin-top: 0; }
   .auth-intro h1 { font-size: 30px; }
   .auth-steps { display: none; }
   .auth-main { align-items: flex-start; padding-block: 28px; }
-
-  .pay-main { padding-block: 20px 32px; }
-  .pay-summary { width: auto; padding: 28px var(--gutter); border-left: none; border-top: 1px solid var(--line); }
 
   .access { padding-block: 20px 40px; text-align: left; align-items: stretch; }
   .access-check { width: 56px; height: 56px; font-size: 26px; margin-top: 8px; }

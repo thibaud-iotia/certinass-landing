@@ -1,19 +1,6 @@
-import { getLocale, INTL_LOCALE, type Locale } from './i18n';
 import app from './version.json';
 
 export const VERSION = app.version;
-
-/** Licence à vie, paiement unique, en euros TTC. */
-export const PRICE = 39;
-
-/** Prix affiché, sans centimes : « 39 € » / « €39 ». */
-export function priceLabel(locale: Locale = getLocale()): string {
-  return new Intl.NumberFormat(INTL_LOCALE[locale], { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(PRICE);
-}
-
-export function formatAmount(cents: number, currency: string, locale: Locale = getLocale()): string {
-  return new Intl.NumberFormat(INTL_LOCALE[locale], { style: 'currency', currency }).format(cents / 100);
-}
 
 export type Os = 'windows' | 'macos' | 'linux';
 
@@ -33,7 +20,7 @@ export interface Download {
   installers: Installer[];
 }
 
-// Les installeurs ne sont plus publics : le backend délivre un lien temporaire aux comptes qui ont une licence.
+// Les installeurs ne sont pas publics : le backend délivre un lien temporaire aux comptes qui ont une clé de licence.
 export const DOWNLOADS: Download[] = [
   // Un seul installeur NSIS pour x64 et ARM64.
   { os: 'windows', name: 'Windows', formats: '.exe · x64 · ARM64', installers: [{ id: 'windows' }] },

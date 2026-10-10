@@ -3,7 +3,6 @@ import { consumeResume } from './account';
 import { Toaster } from './components/Toast';
 import { Access } from './pages/Access';
 import { Landing } from './pages/Landing';
-import { Confirmation, Payment } from './pages/Payment';
 import { SignIn } from './pages/SignIn';
 import { useT } from './i18n';
 import { href, parseRoute, resolveRoute } from './route';
@@ -24,7 +23,7 @@ export function App() {
   // Retour de Google ou GitHub : le parcours reprend là où l'état du compte le mène.
   useEffect(() => {
     if (account.loading || account.state === 'anonymous') return;
-    if (consumeResume()) window.location.replace(href('paiement'));
+    if (consumeResume()) window.location.replace(href('acces'));
   }, [account.loading, account.state]);
 
   useEffect(() => {
@@ -43,10 +42,6 @@ export function App() {
       case 'compte':
       case 'connexion':
         return <SignIn mode={route} />;
-      case 'paiement':
-        return <Payment account={account} />;
-      case 'confirmation':
-        return <Confirmation account={account} />;
       case 'acces':
         return <Access account={account} />;
     }

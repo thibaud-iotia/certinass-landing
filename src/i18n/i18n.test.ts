@@ -32,11 +32,11 @@ describe('format', () => {
 
 describe('t', () => {
   it('traduit dans la langue courante, ou dans celle demandée', () => {
-    expect(t('pricing.buy')).toBe('Acheter maintenant');
+    expect(t('pricing.buy')).toBe('Obtenir ma clé bêta');
     setLocale('en');
     expect(getLocale()).toBe('en');
-    expect(t('pricing.buy')).toBe('Buy now');
-    expect(t('pricing.buy', undefined, 'fr')).toBe('Acheter maintenant');
+    expect(t('pricing.buy')).toBe('Get my beta key');
+    expect(t('pricing.buy', undefined, 'fr')).toBe('Obtenir ma clé bêta');
   });
 
   it('clé inconnue : la clé elle-même', () => {

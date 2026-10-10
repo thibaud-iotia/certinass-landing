@@ -4,7 +4,7 @@ import { useT } from '../i18n';
 import { ConfirmDialog } from './ConfirmDialog';
 import { notify } from './Toast';
 
-/** Suppression du compte (droit à l'effacement). `licensed` : la confirmation détaille ce que devient la licence. */
+/** Suppression du compte (droit à l'effacement). `licensed` : la confirmation détaille ce que devient la clé. */
 export function DeleteAccount({ licensed }: { licensed: boolean }) {
   const t = useT();
   const [open, setOpen] = useState(false);
@@ -42,7 +42,6 @@ export function DeleteAccount({ licensed }: { licensed: boolean }) {
           <ul>
             <li>{t('flow.deleteLicence')}</li>
             <li>{t('flow.deleteApp')}</li>
-            <li>{t('flow.deleteInvoice')}</li>
           </ul>
         )}
         <p>

@@ -5,7 +5,7 @@ import { LanguageSwitch } from '../components/LanguageSwitch';
 import { Logo } from '../components/Logo';
 import { useT, type MessageKey } from '../i18n';
 import { href } from '../route';
-import { priceLabel, VERSION } from '../site';
+import { VERSION } from '../site';
 
 const LINKS: { href: string; label: MessageKey; only?: 'desktop' | 'mobile' }[] = [
   { href: '#assistant', label: 'nav.assistant' },
@@ -19,7 +19,6 @@ const LINKS: { href: string; label: MessageKey; only?: 'desktop' | 'mobile' }[] 
 
 export function Hero({ buyHref, signedIn }: { buyHref: string; signedIn: boolean }) {
   const t = useT();
-  const price = priceLabel();
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
 
@@ -49,7 +48,7 @@ export function Hero({ buyHref, signedIn }: { buyHref: string; signedIn: boolean
               {t(signedIn ? 'nav.account' : 'nav.signIn')}
             </a>
             <Button href={buyHref} size="sm" onClick={closeMenu}>
-              {t('nav.buy', { price })}
+              {t('nav.buy')}
             </Button>
           </div>
         </nav>
@@ -64,8 +63,8 @@ export function Hero({ buyHref, signedIn }: { buyHref: string; signedIn: boolean
           <p className="hero-lead only-mobile">{t('hero.leadMobile')}</p>
           <div className="hero-actions">
             <Button href={buyHref} size="lg">
-              <span className="only-desktop">{t('hero.get', { price })}</span>
-              <span className="only-mobile">{t('hero.getMobile', { price })}</span>
+              <span className="only-desktop">{t('hero.get')}</span>
+              <span className="only-mobile">{t('hero.getMobile')}</span>
             </Button>
             <Button href="#cle-en-main" variant="secondary" size="lg" className="only-desktop">
               {t('hero.how')}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { detectOs, DOWNLOADS, formatAmount, priceLabel } from './site';
+import { detectOs, DOWNLOADS } from './site';
 
 describe('DOWNLOADS', () => {
   it('ne porte plus aucune adresse publique : seul le backend délivre les installeurs', () => {
@@ -9,18 +9,6 @@ describe('DOWNLOADS', () => {
   it('laisse le choix du .dmg sur macOS', () => {
     const macos = DOWNLOADS.find((download) => download.os === 'macos')!;
     expect(macos.installers.map((installer) => installer.id)).toEqual(['macos-arm64', 'macos-x64']);
-  });
-});
-
-describe('formatAmount', () => {
-  it('affiche le montant payé, en centimes, dans sa devise', () => {
-    expect(formatAmount(3900, 'EUR').replace(/\s/g, ' ')).toBe('39,00 €');
-  });
-
-  it('suit la langue du site', () => {
-    expect(formatAmount(3900, 'EUR', 'en')).toBe('€39.00');
-    expect(priceLabel('fr').replace(/\s/g, ' ')).toBe('39 €');
-    expect(priceLabel('en')).toBe('€39');
   });
 });
 

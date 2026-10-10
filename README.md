@@ -1,6 +1,7 @@
 # CertiNass — page de présentation
 
-Page de présentation et d'achat de CertiNass, le gestionnaire de NAS Synology pour Windows, macOS et Linux.
+Page de présentation de CertiNass, le gestionnaire de NAS Synology pour Windows, macOS et Linux, et accès à sa bêta
+gratuite.
 React 19 · TypeScript · Vite.
 
 ```bash
@@ -12,12 +13,15 @@ npm run build    # produit dist/
 
 Un push sur `main` publie `dist/` sur GitHub Pages (`.github/workflows/pages.yml`).
 
-## Achat
+## Bêta
 
-Le téléchargement demande un compte et une licence : `#/compte` ou `#/connexion` (Google, GitHub), `#/paiement`
-(Lemon Squeezy), `#/acces` (installeurs). Comptes, licences et liens de téléchargement viennent du backend Supabase,
-dossier `supabase/` du dépôt de l'application. Sans `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY`
-(`.env.example`), la page s'affiche mais l'achat est indisponible.
+Le téléchargement demande un compte : `#/compte` ou `#/connexion` (Google, GitHub), puis `#/acces` (clé de licence et
+installeurs). Chaque compte reçoit une clé bêta gratuite à sa première connexion ; aucun paiement. Comptes, clés et
+liens de téléchargement viennent du backend Supabase, dossier `supabase/` du dépôt de l'application, où se règle aussi
+la fin de la bêta. Sans `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY` (`.env.example`), la page s'affiche mais les
+comptes sont indisponibles.
+
+Le parcours d'achat (paiement Lemon Squeezy) est conservé sur la branche `archive/paiement-lemonsqueezy`.
 
 ## Langues
 

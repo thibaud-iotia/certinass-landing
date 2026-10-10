@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { signIn, type Provider } from '../account';
 import { Logo } from '../components/Logo';
-import { PURCHASE_STEPS } from '../components/Stepper';
+import { FLOW_STEPS } from '../components/Stepper';
 import { useT } from '../i18n';
 import { href } from '../route';
-import { priceLabel } from '../site';
 
 const PROVIDERS: { id: Provider; name: string; mark: string }[] = [
   { id: 'google', name: 'Google', mark: 'G' },
@@ -33,7 +32,7 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
           <p>{t(creating ? 'signIn.createLead' : 'signIn.returnLead')}</p>
         </div>
         <ol className="auth-steps">
-          {PURCHASE_STEPS.map((step, index) => (
+          {FLOW_STEPS.map((step, index) => (
             <li key={step.title} aria-current={index === 0 ? 'step' : undefined}>
               <span className="auth-step-num">{index + 1}</span>
               <div>
@@ -48,7 +47,7 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
       <main className="auth-main">
         <div className="auth-form">
           <div>
-            {creating && <span className="auth-eyebrow">{t('signIn.eyebrow', { price: priceLabel() })}</span>}
+            {creating && <span className="auth-eyebrow">{t('signIn.eyebrow')}</span>}
             <h2>{t(creating ? 'signIn.welcome' : 'signIn.heading')}</h2>
           </div>
           <div className="providers">

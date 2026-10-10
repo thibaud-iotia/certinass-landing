@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchLicence, supabase, type Licence, type Session } from './account';
+import { fetchBetaEnd, fetchLicence, supabase, type Licence, type Session } from './account';
 import type { AccountState } from './route';
 
 export interface Account {
@@ -8,14 +8,32 @@ export interface Account {
   state: AccountState;
   email: string | null;
   licence: Licence | null;
-  /** Relit la licence : elle arrive par webhook, après le retour du paiement. */
+  /** Fin annoncée de la bêta (millisecondes) ; null tant qu'elle n'a pas d'échéance. */
+  betaEndsAt: number | null;
+  /** Relit la licence : l'ordinateur où elle est activée a pu changer. */
   refresh: () => Promise<void>;
+}
+
+/** La clé ouvre-t-elle l'application ? Une clé bêta ne compte plus une fois la bêta terminée. */
+export function isUsable(licence: Licence | null, betaEndsAt: number | null, now: number): boolean {
+  if (licence?.status !== 'active') return false;
+  return licence.kind !== 'beta' || betaEndsAt === null || now < betaEndsAt;
+}
+
+interface Loaded {
+  licence: Licence | null;
+  betaEndsAt: number | null;
+}
+
+async function load(): Promise<Loaded> {
+  const [licence, betaEndsAt] = await Promise.all([fetchLicence(), fetchBetaEnd()]);
+  return { licence, betaEndsAt };
 }
 
 export function useAccount(): Account {
   // `undefined` : pas encore chargé.
   const [session, setSession] = useState<Session | null | undefined>(supabase ? undefined : null);
-  const [licence, setLicence] = useState<Licence | null | undefined>(undefined);
+  const [loaded, setLoaded] = useState<Loaded | undefined>(undefined);
   const userId = session?.user.id;
 
   useEffect(() => {
@@ -26,19 +44,19 @@ export function useAccount(): Account {
   }, []);
 
   const refresh = useCallback(async () => {
-    // Une lecture en échec ne doit pas faire passer un client pour un compte sans licence : on garde l'état connu.
-    await fetchLicence().then(setLicence, (error) => console.error(error));
+    // Une lecture en échec ne doit pas faire passer un compte pour un compte sans licence : on garde l'état connu.
+    await load().then(setLoaded, (error) => console.error(error));
   }, []);
 
   useEffect(() => {
-    setLicence(undefined);
+    setLoaded(undefined);
     if (!userId) return;
     let stale = false;
-    fetchLicence().then(
-      (next) => !stale && setLicence(next),
+    load().then(
+      (next) => !stale && setLoaded(next),
       (error) => {
         console.error(error);
-        if (!stale) setLicence(null);
+        if (!stale) setLoaded({ licence: null, betaEndsAt: null });
       },
     );
     return () => {
@@ -46,7 +64,9 @@ export function useAccount(): Account {
     };
   }, [userId]);
 
-  const loading = session === undefined || (session !== null && licence === undefined);
-  const state: AccountState = !session ? 'anonymous' : licence?.status === 'active' ? 'licensed' : 'unlicensed';
-  return { loading, state, email: session?.user.email ?? null, licence: licence ?? null, refresh };
+  const loading = session === undefined || (session !== null && loaded === undefined);
+  const licence = loaded?.licence ?? null;
+  const betaEndsAt = loaded?.betaEndsAt ?? null;
+  const state: AccountState = !session ? 'anonymous' : isUsable(licence, betaEndsAt, Date.now()) ? 'licensed' : 'unlicensed';
+  return { loading, state, email: session?.user.email ?? null, licence, betaEndsAt, refresh };
 }

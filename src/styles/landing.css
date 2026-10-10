@@ -155,8 +155,8 @@ img { display: block; max-width: 100%; }
 .price-offer { padding: 40px; display: flex; flex-direction: column; gap: 16px; }
 .price-offer > b { font: 700 22px var(--font-display); }
 .price { display: flex; align-items: baseline; gap: 10px; }
-.price-amount { font: 700 80px/1 var(--font-display); letter-spacing: -.03em; }
-.price-terms { font-size: 16px; color: #B6B6C8; }
+.price-amount { font: 700 68px/1 var(--font-display); letter-spacing: -.03em; }
+.price-terms { font-size: 16px; color: #B6B6C8; white-space: nowrap; }
 .price-included {
   padding: 40px; border-left: 1px solid #2E2E42; display: flex; flex-direction: column; justify-content: center; gap: 12px;
   font-size: 16px;

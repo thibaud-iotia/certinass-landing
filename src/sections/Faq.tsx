@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { useLocale, useT, type Locale } from '../i18n';
-import { priceLabel } from '../site';
 
 interface Question {
   question: string;
@@ -8,16 +7,15 @@ interface Question {
 }
 
 // Réponses mises en forme : chaque langue a sa liste, dans le même ordre.
-const QUESTIONS: Record<Locale, (price: string) => Question[]> = {
-  fr: (price) => [
+const QUESTIONS: Record<Locale, Question[]> = {
+  fr: [
     {
       question: 'Pourquoi les installeurs ne sont-ils pas signés ?',
       answer: (
         <>
           <p>
             Signer une application demande un certificat payant chez Microsoft et chez Apple, à renouveler chaque année.
-            CertiNass est un projet indépendant vendu {price} une seule fois : ces certificats ne sont pas encore
-            financés.
+            CertiNass est un projet indépendant, gratuit pendant sa bêta : ces certificats ne sont pas encore financés.
           </p>
           <p>
             L’avertissement de Windows ou de macOS signale donc l’absence de signature, pas un problème détecté dans
@@ -45,10 +43,10 @@ const QUESTIONS: Record<Locale, (price: string) => Question[]> = {
       ),
     },
     {
-      question: 'Sur combien d’ordinateurs puis-je utiliser ma licence ?',
+      question: 'Sur combien d’ordinateurs puis-je utiliser ma clé ?',
       answer: (
         <p>
-          Une licence fonctionne sur un ordinateur à la fois. Pour en changer, désactivez-la dans{' '}
+          Une clé fonctionne sur un ordinateur à la fois. Pour en changer, désactivez-la dans{' '}
           <i>Paramètres › Licence</i>, ou libérez-la depuis votre compte si l’ordinateur est perdu ou réinstallé. Le
           nombre de NAS n’est pas limité.
         </p>
@@ -59,23 +57,29 @@ const QUESTIONS: Record<Locale, (price: string) => Question[]> = {
       answer: <p>Non. CertiNass s’installe sur votre ordinateur et se connecte à un NAS Synology sous DSM 7.</p>,
     },
     {
-      question: 'Y a-t-il un abonnement ?',
+      question: 'CertiNass est-il gratuit ?',
       answer: (
-        <p>
-          Non. Vous payez une seule fois, les mises à jour de la version 1.x sont incluses, et vous êtes remboursé sur
-          demande sous 14 jours.
-        </p>
+        <>
+          <p>
+            Oui, pendant la bêta : aucun paiement, aucune carte bancaire. Un compte Google ou GitHub suffit pour
+            recevoir votre clé.
+          </p>
+          <p>
+            La bêta prendra fin à une date annoncée à l’avance, sur ce site et dans l’application. CertiNass pourra
+            alors devenir payant, et les clés bêta cesseront d’ouvrir l’application.
+          </p>
+        </>
       ),
     },
   ],
-  en: (price) => [
+  en: [
     {
       question: 'Why aren’t the installers signed?',
       answer: (
         <>
           <p>
             Signing an app requires a paid certificate from Microsoft and from Apple, renewed every year. CertiNass is
-            an independent project sold for {price}, once: those certificates are not funded yet.
+            an independent project, free during its beta: those certificates are not funded yet.
           </p>
           <p>
             The Windows or macOS warning therefore points to the missing signature, not to a problem found in the app.
@@ -102,10 +106,10 @@ const QUESTIONS: Record<Locale, (price: string) => Question[]> = {
       ),
     },
     {
-      question: 'On how many computers can I use my licence?',
+      question: 'On how many computers can I use my key?',
       answer: (
         <p>
-          A licence works on one computer at a time. To switch, deactivate it in <i>Settings › Licence</i>, or release
+          A key works on one computer at a time. To switch, deactivate it in <i>Settings › Licence</i>, or release
           it from your account if the computer is lost or reinstalled. The number of NAS devices is unlimited.
         </p>
       ),
@@ -115,11 +119,17 @@ const QUESTIONS: Record<Locale, (price: string) => Question[]> = {
       answer: <p>No. CertiNass is installed on your computer and connects to a Synology NAS running DSM 7.</p>,
     },
     {
-      question: 'Is there a subscription?',
+      question: 'Is CertiNass free?',
       answer: (
-        <p>
-          No. You pay once, version 1.x updates are included, and you get a refund on request within 14 days.
-        </p>
+        <>
+          <p>
+            Yes, during the beta: no payment, no card. A Google or GitHub account is all you need to receive your key.
+          </p>
+          <p>
+            The beta will end on a date announced in advance, on this site and in the app. CertiNass may then become a
+            paid product, and beta keys will stop opening the app.
+          </p>
+        </>
       ),
     },
   ],
@@ -127,7 +137,7 @@ const QUESTIONS: Record<Locale, (price: string) => Question[]> = {
 
 export function Faq() {
   const t = useT();
-  const questions = QUESTIONS[useLocale()](priceLabel());
+  const questions = QUESTIONS[useLocale()];
   return (
     <section id="faq" className="section faq">
       <div className="wrap">
