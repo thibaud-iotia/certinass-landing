@@ -1,5 +1,6 @@
 import { href, type AccountState } from '../route';
 import { Assistant } from '../sections/Assistant';
+import { Faq } from '../sections/Faq';
 import { Everyday, LinkImport, MobileModules, PowerUsers, Sharing } from '../sections/Features';
 import { Hero } from '../sections/Hero';
 import { Footer, Pricing } from '../sections/Pricing';
@@ -22,6 +23,7 @@ export function Landing({ state }: { state: AccountState }) {
         <MobileModules />
         <Everyday />
         <Pricing buyHref={buyHref} />
+        <Faq />
       </main>
       <Footer />
     </>

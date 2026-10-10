@@ -164,6 +164,23 @@ img { display: block; max-width: 100%; }
   font-weight: 700; font-size: 14px;
 }
 .pricing .fine-print { margin-top: -4px; }
+.pricing .fine-print a { color: inherit; text-decoration: underline; }
+
+/* ---------- Questions fréquentes ---------- */
+.faq { background: #F8F8FB; }
+.faq .title { margin: 10px 0 32px; }
+.faq-list { max-width: 880px; display: flex; flex-direction: column; gap: 12px; }
+.faq details { background: #fff; border: 1px solid var(--line); border-radius: 16px; }
+.faq summary {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 22px; cursor: pointer;
+  list-style: none; font-weight: 600; font-size: 17px; color: var(--title);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; flex: none; font-size: 22px; line-height: 1; color: #F5254A; }
+.faq details[open] summary::after { content: "−"; }
+.faq-answer {
+  padding: 0 22px 20px; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.6; color: var(--copy);
+}
 
 /* ---------- Pied de page ---------- */
 .footer { background: #08080C; color: var(--copy); font-size: 14px; padding-block: 24px; }
@@ -237,6 +254,11 @@ img { display: block; max-width: 100%; }
   .price-terms { font-size: 14px; }
   .price-included li { font-size: 14px; line-height: 1.8; }
   .price-path { font-size: 13px; color: #B6B6C8; }
+
+  .faq .title { margin: 0 0 6px; }
+  .faq details { border-radius: 12px; }
+  .faq summary { padding: 14px 16px; font-size: 15px; }
+  .faq-answer { padding: 0 16px 14px; font-size: 14px; }
 
   .footer { padding-block: 18px; font-size: 13px; color: #7E7E96; }
   .footer .wrap { gap: 0; }

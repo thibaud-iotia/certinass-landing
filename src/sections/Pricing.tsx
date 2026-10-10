@@ -3,7 +3,7 @@ import { PRICE_LABEL, REPO_URL, VERSION } from '../site';
 
 const INCLUDED = [
   { label: 'Toutes les fonctions : IA, éditeur, terminal, import, partages', mobileLabel: 'Toutes les fonctions' },
-  { label: 'NAS illimités, jusqu’à 3 ordinateurs' },
+  { label: 'NAS illimités, une licence pour un ordinateur' },
   { label: 'Mises à jour de la version 1.x incluses', mobileLabel: 'Mises à jour 1.x incluses' },
   { label: 'Windows, macOS et Linux' },
 ];
@@ -66,7 +66,8 @@ export function Pricing({ buyHref }: { buyHref: string }) {
           ))}
         </ol>
         <p className="fine-print only-desktop">
-          Installeurs non signés : Windows ou macOS peut afficher un avertissement au premier lancement.
+          Installeurs non signés : Windows ou macOS peut afficher un avertissement au premier lancement.{' '}
+          <a href="#faq">Pourquoi ?</a>
         </p>
         <p className="price-path only-mobile">1 · Compte → 2 · Paiement → 3 · Téléchargement</p>
       </div>
