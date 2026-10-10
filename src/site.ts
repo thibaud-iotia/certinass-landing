@@ -15,9 +15,6 @@ export function formatAmount(cents: number, currency: string, locale: Locale = g
   return new Intl.NumberFormat(INTL_LOCALE[locale], { style: 'currency', currency }).format(cents / 100);
 }
 
-export const REPO_URL = 'https://github.com/thibaud-iotia/certinass-releases';
-export const ASSISTANT_DOC_URL = `${REPO_URL}/blob/main/docs/features/v0.7.0-assistant-ia.md`;
-
 export type Os = 'windows' | 'macos' | 'linux';
 
 /** Identifiants d'installeur compris par la fonction `download` du backend (`supabase/functions/download`). */

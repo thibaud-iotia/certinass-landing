@@ -1,7 +1,7 @@
 import { Button } from '../components/Button';
 import { LanguageSwitch } from '../components/LanguageSwitch';
 import { useT, type MessageKey } from '../i18n';
-import { priceLabel, REPO_URL, VERSION } from '../site';
+import { priceLabel, VERSION } from '../site';
 
 const INCLUDED: { label: MessageKey; mobileLabel?: MessageKey }[] = [
   { label: 'pricing.includedFeatures', mobileLabel: 'pricing.includedFeaturesMobile' },
@@ -85,7 +85,6 @@ export function Footer() {
       <div className="wrap">
         <b className="only-desktop">CertiNass</b>
         <span>v{VERSION}</span>
-        <a href={REPO_URL}>GitHub</a>
         <LanguageSwitch />
         <span className="disclaimer">
           <span className="only-desktop">{t('footer.disclaimer')}</span>

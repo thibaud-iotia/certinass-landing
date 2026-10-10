@@ -1,9 +1,7 @@
 import type { ReactNode } from 'react';
 import { captures } from '../captures';
-import { Button } from '../components/Button';
 import { Capture } from '../components/Capture';
 import { useT } from '../i18n';
-import { ASSISTANT_DOC_URL } from '../site';
 
 function Check({ children }: { children: ReactNode }) {
   return (
@@ -46,9 +44,6 @@ export function Assistant() {
           </ul>
 
           <div className="fine-print">{t('assistant.finePrint')}</div>
-          <Button href={ASSISTANT_DOC_URL} variant="secondary" className="only-desktop">
-            {t('assistant.mcp')}
-          </Button>
         </div>
         <div className="assistant-captures only-desktop">
           <Capture src={captures.assistant} alt={t('assistant.captureAlt')} />
