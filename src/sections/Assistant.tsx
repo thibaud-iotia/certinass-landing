@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { captures } from '../captures';
 import { Button } from '../components/Button';
 import { Capture } from '../components/Capture';
+import { useT } from '../i18n';
 import { ASSISTANT_DOC_URL } from '../site';
 
 function Check({ children }: { children: ReactNode }) {
@@ -16,41 +17,42 @@ function Check({ children }: { children: ReactNode }) {
 }
 
 export function Assistant() {
+  const t = useT();
   return (
     <section id="assistant" className="section assistant theme-dark">
       <div className="wrap split">
         <div className="assistant-copy">
-          <span className="pill only-desktop">Propulsé par Claude</span>
-          <h2 className="title-xl">Parlez à votre NAS.</h2>
-          <p className="quote only-desktop">« Qu’est-ce qui prend de la place ? »</p>
+          <span className="pill only-desktop">{t('assistant.pill')}</span>
+          <h2 className="title-xl">{t('assistant.title')}</h2>
+          <p className="quote only-desktop">{t('assistant.quote')}</p>
 
           <div className="action-card only-mobile">
-            <b>Action à valider</b>
-            <br />☑ Créer /photos/2026-07
-            <br />☑ Déplacer 142 fichiers
-            <br />☐ Supprimer les doublons
+            <b>{t('assistant.actionTitle')}</b>
+            <br />☑ {t('assistant.actionCreate')}
+            <br />☑ {t('assistant.actionMove')}
+            <br />☐ {t('assistant.actionDelete')}
           </div>
 
           <ul className="checks only-desktop">
-            <Check>L’IA propose, vous validez — étapes décochables</Check>
-            <Check>Journal 90 jours et bouton Annuler</Check>
-            <Check>Permissions : Toujours / Demander / Jamais</Check>
-            <Check>Contenu envoyé seulement avec votre accord</Check>
+            <Check>{t('assistant.checkValidate')}</Check>
+            <Check>{t('assistant.checkJournal')}</Check>
+            <Check>{t('assistant.checkPermissions')}</Check>
+            <Check>{t('assistant.checkContent')}</Check>
           </ul>
           <ul className="checks only-mobile">
-            <Check>Vous validez</Check>
-            <Check>Annulable 90 jours</Check>
-            <Check>Permissions fines</Check>
+            <Check>{t('assistant.checkValidateMobile')}</Check>
+            <Check>{t('assistant.checkJournalMobile')}</Check>
+            <Check>{t('assistant.checkPermissionsMobile')}</Check>
           </ul>
 
-          <div className="fine-print">Utilise votre clé API Claude · désactivé par défaut</div>
+          <div className="fine-print">{t('assistant.finePrint')}</div>
           <Button href={ASSISTANT_DOC_URL} variant="secondary" className="only-desktop">
-            Ajouter à Claude Desktop (MCP)
+            {t('assistant.mcp')}
           </Button>
         </div>
         <div className="assistant-captures only-desktop">
-          <Capture src={captures.assistant} alt="L'onglet Assistant : analyse de l'espace occupé, par famille de fichiers" />
-          <Capture src={captures.journal} alt="Le journal des actions, chacune avec son bouton Annuler" />
+          <Capture src={captures.assistant} alt={t('assistant.captureAlt')} />
+          <Capture src={captures.journal} alt={t('assistant.journalAlt')} />
         </div>
       </div>
     </section>

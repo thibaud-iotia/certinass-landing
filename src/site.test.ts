@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { detectOs, DOWNLOADS, formatAmount } from './site';
+import { detectOs, DOWNLOADS, formatAmount, priceLabel } from './site';
 
 describe('DOWNLOADS', () => {
   it('ne porte plus aucune adresse publique : seul le backend délivre les installeurs', () => {
@@ -15,6 +15,12 @@ describe('DOWNLOADS', () => {
 describe('formatAmount', () => {
   it('affiche le montant payé, en centimes, dans sa devise', () => {
     expect(formatAmount(3900, 'EUR').replace(/\s/g, ' ')).toBe('39,00 €');
+  });
+
+  it('suit la langue du site', () => {
+    expect(formatAmount(3900, 'EUR', 'en')).toBe('€39.00');
+    expect(priceLabel('fr').replace(/\s/g, ' ')).toBe('39 €');
+    expect(priceLabel('en')).toBe('€39');
   });
 });
 

@@ -19,6 +19,13 @@ Le téléchargement demande un compte et une licence : `#/compte` ou `#/connexio
 dossier `supabase/` du dépôt de l'application. Sans `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY`
 (`.env.example`), la page s'affiche mais l'achat est indisponible.
 
+## Langues
+
+Le site est en français et en anglais (`src/i18n/`, calqué sur l'application). La langue suit le navigateur, puis le
+choix du visiteur (sélecteur FR / EN, gardé dans le navigateur) ; `?lang=en` ou `?lang=fr` l'impose depuis un lien.
+Les textes sont dans `src/i18n/messages.ts`, les réponses de la FAQ dans `src/sections/Faq.tsx`. Les captures d'écran
+restent celles de l'application en français.
+
 ## Version et captures
 
 La version affichée (`src/version.json`) et les captures d'écran (`src/assets/captures/`) viennent de l'application.

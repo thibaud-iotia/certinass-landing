@@ -3,11 +3,13 @@ import { downloadLink, releaseLicence, signOut } from '../account';
 import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
 import { Stepper } from '../components/Stepper';
+import { useT } from '../i18n';
 import { detectOs, DOWNLOADS, formatAmount, type InstallerId } from '../site';
 import type { Account } from '../useAccount';
 
 /** Maquette 1e : licence active, installeurs délivrés par lien temporaire. */
 export function Access({ account }: { account: Account }) {
+  const t = useT();
   const os = detectOs(navigator.userAgent);
   const [pending, setPending] = useState<InstallerId | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +34,7 @@ export function Access({ account }: { account: Account }) {
   };
 
   const free = () => {
-    if (!window.confirm('Libérer votre licence ? CertiNass se fermera sur l’ordinateur où elle est activée, et vous pourrez l’activer sur un autre.')) return;
+    if (!window.confirm(t('access.releaseConfirm'))) return;
     setRelease('busy');
     releaseLicence().then(
       () => setRelease('done'),
@@ -46,7 +48,7 @@ export function Access({ account }: { account: Account }) {
     downloadLink(installer)
       .then(
         (url) => window.location.assign(url),
-        () => setError('Le téléchargement n’a pas pu démarrer. Réessayez dans un instant.'),
+        () => setError(t('access.downloadError')),
       )
       .finally(() => setPending(null));
   };
@@ -60,10 +62,8 @@ export function Access({ account }: { account: Account }) {
       <span className="access-check" aria-hidden="true">
         ✓
       </span>
-      <h1>Paiement confirmé. Bienvenue !</h1>
-      <p className="access-lead">
-        Votre licence est active. Téléchargez l’application puis activez-la avec votre clé de licence.
-      </p>
+      <h1>{t('access.title')}</h1>
+      <p className="access-lead">{t('access.lead')}</p>
 
       <div className="download-grid">
         {DOWNLOADS.map((item) => (
@@ -79,7 +79,7 @@ export function Access({ account }: { account: Account }) {
                   disabled={pending !== null}
                   onClick={() => download(installer.id)}
                 >
-                  {pending === installer.id ? 'Préparation…' : installer.label}
+                  {pending === installer.id ? t('access.preparing') : (installer.label ?? t('access.download'))}
                 </Button>
               ))}
             </div>
@@ -94,46 +94,44 @@ export function Access({ account }: { account: Account }) {
 
       <div className="access-details">
         <div className="access-card">
-          <b>Dans l’application</b>
+          <b>{t('access.inApp')}</b>
           <ol className="access-steps">
-            <li>Lancez CertiNass</li>
-            <li>Collez votre clé de licence</li>
-            <li>Cliquez sur « Activer » — c’est tout</li>
+            <li>{t('access.stepLaunch')}</li>
+            <li>{t('access.stepPaste')}</li>
+            <li>{t('access.stepActivate')}</li>
           </ol>
           <div className="licence-key">
-            <code>{key ?? 'Clé en cours de création…'}</code>
+            <code>{key ?? t('access.keyPending')}</code>
             <button type="button" className="link" disabled={!key} onClick={copy}>
-              {copied ? 'Copiée ✓' : 'Copier'}
+              {copied ? t('access.copied') : t('access.copy')}
             </button>
           </div>
         </div>
         <div className="access-card">
-          <b>Licence</b>
-          {licence && <div>À vie · {formatAmount(licence.total_cents, licence.currency)} payés</div>}
-          <div>Mises à jour 1.x incluses</div>
-          <div>Un ordinateur à la fois : pour en changer, désactivez-la dans Paramètres › Licence.</div>
+          <b>{t('access.licence')}</b>
+          {licence && <div>{t('access.lifetime', { amount: formatAmount(licence.total_cents, licence.currency) })}</div>}
+          <div>{t('access.updates')}</div>
+          <div>{t('access.oneComputer')}</div>
           {licence?.receipt_url && (
             <a href={licence.receipt_url} target="_blank" rel="noreferrer">
-              Télécharger ma facture →
+              {t('access.invoice')}
             </a>
           )}
           <button type="button" className="link" disabled={!key || release === 'busy'} onClick={free}>
-            Ordinateur perdu ou réinstallé ? Libérer ma licence
+            {t('access.release')}
           </button>
-          {release === 'done' && <div role="status">Licence libérée : vous pouvez l’activer sur un autre ordinateur.</div>}
+          {release === 'done' && <div role="status">{t('access.released')}</div>}
           {release === 'failed' && (
             <div className="flow-error" role="alert">
-              La licence n’a pas pu être libérée. Réessayez dans un instant.
+              {t('access.releaseError')}
             </div>
           )}
           <button type="button" className="link" onClick={() => void signOut()}>
-            Se déconnecter
+            {t('flow.signOut')}
           </button>
         </div>
       </div>
-      <p className="fine-print">
-        Installeurs non signés : Windows ou macOS peut afficher un avertissement au premier lancement.
-      </p>
+      <p className="fine-print">{t('access.unsigned')}</p>
     </div>
   );
 }

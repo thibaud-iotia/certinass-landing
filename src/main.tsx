@@ -11,6 +11,9 @@ import './styles/achat.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { syncDocument } from './i18n';
+
+syncDocument();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

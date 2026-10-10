@@ -1,13 +1,18 @@
+import { getLocale, INTL_LOCALE, type Locale } from './i18n';
 import app from './version.json';
 
 export const VERSION = app.version;
 
 /** Licence à vie, paiement unique, en euros TTC. */
 export const PRICE = 39;
-export const PRICE_LABEL = `${PRICE} €`;
 
-export function formatAmount(cents: number, currency: string): string {
-  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency }).format(cents / 100);
+/** Prix affiché, sans centimes : « 39 € » / « €39 ». */
+export function priceLabel(locale: Locale = getLocale()): string {
+  return new Intl.NumberFormat(INTL_LOCALE[locale], { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(PRICE);
+}
+
+export function formatAmount(cents: number, currency: string, locale: Locale = getLocale()): string {
+  return new Intl.NumberFormat(INTL_LOCALE[locale], { style: 'currency', currency }).format(cents / 100);
 }
 
 export const REPO_URL = 'https://github.com/thibaud-iotia/certinass-releases';
@@ -20,7 +25,8 @@ export type InstallerId = 'windows' | 'macos-arm64' | 'macos-x64' | 'linux-appim
 
 export interface Installer {
   id: InstallerId;
-  label: string;
+  /** Absent : un seul installeur pour ce système, le bouton dit « Télécharger ». */
+  label?: string;
 }
 
 export interface Download {
@@ -33,7 +39,7 @@ export interface Download {
 // Les installeurs ne sont plus publics : le backend délivre un lien temporaire aux comptes qui ont une licence.
 export const DOWNLOADS: Download[] = [
   // Un seul installeur NSIS pour x64 et ARM64.
-  { os: 'windows', name: 'Windows', formats: '.exe · x64 · ARM64', installers: [{ id: 'windows', label: 'Télécharger' }] },
+  { os: 'windows', name: 'Windows', formats: '.exe · x64 · ARM64', installers: [{ id: 'windows' }] },
   // Deux .dmg, et le navigateur ne dit pas de façon fiable Intel ou Apple Silicon : le visiteur choisit.
   {
     os: 'macos',

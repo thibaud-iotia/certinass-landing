@@ -1,5 +1,6 @@
 // Backend du site (dossier `supabase/` du dépôt de l'application) : comptes, licence, paiement, installeurs.
 import { createClient, type Session } from '@supabase/supabase-js';
+import { getLocale, t } from './i18n';
 import type { InstallerId } from './site';
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
@@ -9,7 +10,7 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 export const supabase = url && anonKey ? createClient(url, anonKey, { auth: { flowType: 'pkce' } }) : null;
 
 function backend() {
-  if (!supabase) throw new Error('Achat indisponible : le backend du site n’est pas configuré.');
+  if (!supabase) throw new Error(t('flow.unavailable'));
   return supabase;
 }
 
@@ -65,9 +66,9 @@ async function invoke(name: string, body?: object): Promise<string> {
   return data.url;
 }
 
-/** Adresse de la page de paiement ouverte pour le compte connecté. */
+/** Adresse de la page de paiement ouverte pour le compte connecté, dans la langue du site. */
 export function startCheckout(): Promise<string> {
-  return invoke('checkout');
+  return invoke('checkout', { locale: getLocale() });
 }
 
 /** Libère la clé de l'ordinateur où elle est activée (poste perdu ou réinstallé) : elle peut être activée ailleurs. */

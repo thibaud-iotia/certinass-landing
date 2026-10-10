@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { signIn, type Provider } from '../account';
 import { Logo } from '../components/Logo';
 import { PURCHASE_STEPS } from '../components/Stepper';
+import { useT } from '../i18n';
 import { href } from '../route';
-import { PRICE_LABEL } from '../site';
+import { priceLabel } from '../site';
 
 const PROVIDERS: { id: Provider; name: string; mark: string }[] = [
   { id: 'google', name: 'Google', mark: 'G' },
@@ -12,6 +13,7 @@ const PROVIDERS: { id: Provider; name: string; mark: string }[] = [
 
 /** Maquettes 1b (créer un compte) et 1c (se connecter) : même écran, seul le texte et l'accord aux CGU changent. */
 export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
+  const t = useT();
   const creating = mode === 'compte';
   const [accepted, setAccepted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,20 +29,16 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
       <aside className="auth-aside theme-dark">
         <Logo />
         <div className="auth-intro">
-          <h1>{creating ? 'Créez votre compte pour commencer.' : 'Content de vous revoir.'}</h1>
-          <p>
-            {creating
-              ? 'Votre licence est liée à votre compte : vous y retrouverez votre clé d’activation et vos téléchargements.'
-              : 'Connectez-vous pour acheter ou retrouver votre licence.'}
-          </p>
+          <h1>{t(creating ? 'signIn.createTitle' : 'signIn.returnTitle')}</h1>
+          <p>{t(creating ? 'signIn.createLead' : 'signIn.returnLead')}</p>
         </div>
         <ol className="auth-steps">
           {PURCHASE_STEPS.map((step, index) => (
             <li key={step.title} aria-current={index === 0 ? 'step' : undefined}>
               <span className="auth-step-num">{index + 1}</span>
               <div>
-                <b>{step.title}</b>
-                <div>{step.detail}</div>
+                <b>{t(step.title)}</b>
+                <div>{t(step.detail)}</div>
               </div>
             </li>
           ))}
@@ -50,8 +48,8 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
       <main className="auth-main">
         <div className="auth-form">
           <div>
-            {creating && <span className="auth-eyebrow">Étape 1 / 3 · Licence CertiNass · {PRICE_LABEL}</span>}
-            <h2>{creating ? 'Bienvenue' : 'Connexion'}</h2>
+            {creating && <span className="auth-eyebrow">{t('signIn.eyebrow', { price: priceLabel() })}</span>}
+            <h2>{t(creating ? 'signIn.welcome' : 'signIn.heading')}</h2>
           </div>
           <div className="providers">
             {PROVIDERS.map((provider) => (
@@ -59,20 +57,20 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
                 <span className={`provider-mark provider-${provider.id}`} aria-hidden="true">
                   {provider.mark}
                 </span>
-                Continuer avec {provider.name}
+                {t('signIn.continueWith', { name: provider.name })}
               </button>
             ))}
           </div>
           {creating ? (
             <label className="consent">
               <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
-              J’accepte les CGU et la politique de confidentialité.
+              {t('signIn.consent')}
             </label>
           ) : (
             <div className="notice">
-              <b>Compte sans licence ?</b>
+              <b>{t('signIn.noLicenceTitle')}</b>
               <br />
-              Après connexion, vous serez redirigé vers le paiement.
+              {t('signIn.noLicence')}
             </div>
           )}
           {error && (
@@ -83,13 +81,13 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
           <div className="auth-foot">
             {creating ? (
               <>
-                Aucun mot de passe. Nous ne publions rien sur votre compte.
+                {t('signIn.noPassword')}
                 <br />
-                Déjà client ? <a href={href('connexion')}>Se connecter</a>
+                {t('signIn.existing')} <a href={href('connexion')}>{t('signIn.signInLink')}</a>
               </>
             ) : (
               <>
-                Pas encore de compte ? <a href={href('compte')}>Créer un compte</a>
+                {t('signIn.noAccount')} <a href={href('compte')}>{t('signIn.createLink')}</a>
               </>
             )}
           </div>

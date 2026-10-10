@@ -4,6 +4,7 @@ import { Access } from './pages/Access';
 import { Landing } from './pages/Landing';
 import { Confirmation, Payment } from './pages/Payment';
 import { SignIn } from './pages/SignIn';
+import { useT } from './i18n';
 import { href, parseRoute, resolveRoute } from './route';
 import { useAccount } from './useAccount';
 
@@ -13,6 +14,7 @@ function subscribeToHash(notify: () => void) {
 }
 
 export function App() {
+  const t = useT();
   const account = useAccount();
   const hash = useSyncExternalStore(subscribeToHash, () => window.location.hash);
   const requested = parseRoute(hash);
@@ -34,7 +36,7 @@ export function App() {
   }, [route]);
 
   if (route === 'landing') return <Landing state={account.state} />;
-  if (account.loading) return <div className="flow-wait theme-dark" role="status" aria-label="Chargement" />;
+  if (account.loading) return <div className="flow-wait theme-dark" role="status" aria-label={t('meta.loading')} />;
   switch (route) {
     case 'compte':
     case 'connexion':

@@ -1,36 +1,40 @@
 import { Button } from '../components/Button';
-import { PRICE_LABEL, REPO_URL, VERSION } from '../site';
+import { LanguageSwitch } from '../components/LanguageSwitch';
+import { useT, type MessageKey } from '../i18n';
+import { priceLabel, REPO_URL, VERSION } from '../site';
 
-const INCLUDED = [
-  { label: 'Toutes les fonctions : IA, éditeur, terminal, import, partages', mobileLabel: 'Toutes les fonctions' },
-  { label: 'NAS illimités, une licence pour un ordinateur' },
-  { label: 'Mises à jour de la version 1.x incluses', mobileLabel: 'Mises à jour 1.x incluses' },
-  { label: 'Windows, macOS et Linux' },
+const INCLUDED: { label: MessageKey; mobileLabel?: MessageKey }[] = [
+  { label: 'pricing.includedFeatures', mobileLabel: 'pricing.includedFeaturesMobile' },
+  { label: 'pricing.includedNas' },
+  { label: 'pricing.includedUpdates', mobileLabel: 'pricing.includedUpdatesMobile' },
+  { label: 'pricing.includedPlatforms' },
 ];
 
-const STEPS = ['Créez un compte', 'Payez', 'Téléchargez et connectez-vous'];
+const STEPS: MessageKey[] = ['pricing.stepAccount', 'pricing.stepPay', 'pricing.stepDownload'];
 
 export function Pricing({ buyHref }: { buyHref: string }) {
+  const t = useT();
   return (
     <section id="tarif" className="section pricing theme-dark">
       <div className="wrap">
-        <div className="eyebrow only-desktop">Tarif</div>
-        <h2 className="title-xl">Achetez une fois. Gardez-le.</h2>
-        <p className="lead only-desktop">Pas d’abonnement, pas de renouvellement.</p>
+        <div className="eyebrow only-desktop">{t('pricing.eyebrow')}</div>
+        <h2 className="title-xl">{t('pricing.title')}</h2>
+        <p className="lead only-desktop">{t('pricing.lead')}</p>
 
         <div className="price-card">
           <div className="price-offer">
-            <b className="only-desktop">Licence CertiNass</b>
+            <b className="only-desktop">{t('pricing.product')}</b>
             <div className="price">
-              <span className="price-amount">{PRICE_LABEL}</span>
+              <span className="price-amount">{priceLabel()}</span>
               <span className="price-terms">
-                <span className="only-desktop">TTC · </span>une seule fois
+                <span className="only-desktop">{t('pricing.taxIncluded')} · </span>
+                {t('pricing.once')}
               </span>
             </div>
             <Button href={buyHref} size="lg" block>
-              Acheter maintenant
+              {t('pricing.buy')}
             </Button>
-            <div className="fine-print only-desktop">Remboursé sous 14 jours · Paiement par carte sécurisé</div>
+            <div className="fine-print only-desktop">{t('pricing.guarantee')}</div>
           </div>
           <ul className="price-included">
             {INCLUDED.map((item) => (
@@ -40,11 +44,11 @@ export function Pricing({ buyHref }: { buyHref: string }) {
                 </span>
                 {item.mobileLabel ? (
                   <>
-                    <span className="only-desktop">{item.label}</span>
-                    <span className="only-mobile">{item.mobileLabel}</span>
+                    <span className="only-desktop">{t(item.label)}</span>
+                    <span className="only-mobile">{t(item.mobileLabel)}</span>
                   </>
                 ) : (
-                  item.label
+                  t(item.label)
                 )}
               </li>
             ))}
@@ -52,7 +56,7 @@ export function Pricing({ buyHref }: { buyHref: string }) {
               <span className="check" aria-hidden="true">
                 ✓
               </span>
-              Remboursé sous 14 jours
+              {t('pricing.refund')}
             </li>
           </ul>
         </div>
@@ -61,30 +65,31 @@ export function Pricing({ buyHref }: { buyHref: string }) {
           {STEPS.map((step, index) => (
             <li key={step}>
               <span className="price-step-num">{index + 1}</span>
-              {step}
+              {t(step)}
             </li>
           ))}
         </ol>
         <p className="fine-print only-desktop">
-          Installeurs non signés : Windows ou macOS peut afficher un avertissement au premier lancement.{' '}
-          <a href="#faq">Pourquoi ?</a>
+          {t('pricing.unsigned')} <a href="#faq">{t('pricing.why')}</a>
         </p>
-        <p className="price-path only-mobile">1 · Compte → 2 · Paiement → 3 · Téléchargement</p>
+        <p className="price-path only-mobile">{t('pricing.path')}</p>
       </div>
     </section>
   );
 }
 
 export function Footer() {
+  const t = useT();
   return (
     <footer className="footer">
       <div className="wrap">
         <b className="only-desktop">CertiNass</b>
         <span>v{VERSION}</span>
         <a href={REPO_URL}>GitHub</a>
+        <LanguageSwitch />
         <span className="disclaimer">
-          <span className="only-desktop">Projet indépendant, non affilié à Synology.</span>
-          <span className="only-mobile">Non affilié à Synology</span>
+          <span className="only-desktop">{t('footer.disclaimer')}</span>
+          <span className="only-mobile">{t('footer.disclaimerMobile')}</span>
         </span>
       </div>
     </footer>

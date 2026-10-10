@@ -3,12 +3,12 @@ import { signOut, startCheckout } from '../account';
 import { Button } from '../components/Button';
 import { Logo } from '../components/Logo';
 import { Stepper } from '../components/Stepper';
+import { useT } from '../i18n';
 import { formatAmount, PRICE } from '../site';
 import type { Account } from '../useAccount';
 
-const AMOUNT = formatAmount(PRICE * 100, 'EUR');
-
 function AccountBadge({ email }: { email: string | null }) {
+  const t = useT();
   return (
     <div className="account-badge">
       <span className="account-avatar" aria-hidden="true">
@@ -16,7 +16,7 @@ function AccountBadge({ email }: { email: string | null }) {
       </span>
       <span className="account-email">{email}</span>
       <button type="button" className="link" onClick={() => void signOut()}>
-        Se déconnecter
+        {t('flow.signOut')}
       </button>
     </div>
   );
@@ -27,6 +27,8 @@ function AccountBadge({ email }: { email: string | null }) {
  * sur sa propre page (carte, Apple Pay, PayPal, code promo, TVA du pays) puis renvoie sur `#/confirmation`.
  */
 export function Payment({ account }: { account: Account }) {
+  const t = useT();
+  const amount = formatAmount(PRICE * 100, 'EUR');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +39,7 @@ export function Payment({ account }: { account: Account }) {
       (url) => window.location.assign(url),
       () => {
         setBusy(false);
-        setError('Le paiement n’a pas pu être ouvert. Réessayez dans un instant.');
+        setError(t('payment.error'));
       },
     );
   };
@@ -50,44 +52,39 @@ export function Payment({ account }: { account: Account }) {
           <AccountBadge email={account.email} />
         </div>
         <Stepper current={1} />
-        <h1>Paiement</h1>
-        <p className="lead">
-          Le règlement se fait sur la page sécurisée de notre prestataire de paiement, Lemon Squeezy : carte bancaire,
-          Apple Pay ou PayPal. Un code promo se saisit sur cette page.
-        </p>
+        <h1>{t('payment.title')}</h1>
+        <p className="lead">{t('payment.lead')}</p>
         <Button size="lg" block disabled={busy} onClick={pay}>
-          {busy ? 'Ouverture du paiement…' : `Payer ${AMOUNT}`}
+          {busy ? t('payment.opening') : t('payment.pay', { amount })}
         </Button>
         {error && (
           <p className="flow-error" role="alert">
             {error}
           </p>
         )}
-        <div className="pay-note">🔒 Paiement chiffré · Paiement unique, sans renouvellement.</div>
+        <div className="pay-note">{t('payment.note')}</div>
       </main>
 
       <aside className="pay-summary">
-        <b className="pay-summary-title">Récapitulatif</b>
+        <b className="pay-summary-title">{t('payment.summary')}</b>
         <div className="pay-item">
           <div>
-            <b>Licence CertiNass</b>
-            <div>Paiement unique · mises à jour 1.x incluses</div>
+            <b>{t('payment.product')}</b>
+            <div>{t('payment.productDetail')}</div>
           </div>
-          <b className="mono">{AMOUNT}</b>
+          <b className="mono">{amount}</b>
         </div>
         <div className="pay-total">
-          <span>Total aujourd’hui</span>
-          <span>{AMOUNT}</span>
+          <span>{t('payment.total')}</span>
+          <span>{amount}</span>
         </div>
-        <div className="pay-tax">TVA incluse, calculée selon votre pays.</div>
+        <div className="pay-tax">{t('payment.tax')}</div>
         <ul className="pay-checks">
-          <li>Remboursé sous 14 jours</li>
-          <li>Aucun abonnement ni renouvellement</li>
-          <li>Facture envoyée par e-mail</li>
+          <li>{t('payment.checkRefund')}</li>
+          <li>{t('payment.checkNoSubscription')}</li>
+          <li>{t('payment.checkInvoice')}</li>
         </ul>
-        <div className="pay-legal">
-          Les paiements sont traités par un prestataire certifié PCI-DSS. CertiNass ne stocke aucun numéro de carte.
-        </div>
+        <div className="pay-legal">{t('payment.legal')}</div>
       </aside>
     </div>
   );
@@ -98,6 +95,7 @@ const PATIENCE_MS = 60_000;
 
 /** Retour du paiement : la licence est activée par le webhook du prestataire, on l'attend. */
 export function Confirmation({ account }: { account: Account }) {
+  const t = useT();
   const [late, setLate] = useState(false);
   const { refresh } = account;
 
@@ -113,15 +111,11 @@ export function Confirmation({ account }: { account: Account }) {
   return (
     <div className="flow-wait theme-dark" role="status">
       <Logo />
-      <h1>Confirmation du paiement…</h1>
-      <p>
-        {late
-          ? 'La confirmation tarde. Si vous avez bien payé, votre accès s’ouvrira ici dès qu’elle arrive : inutile de payer à nouveau.'
-          : 'Votre accès s’ouvre dans quelques secondes.'}
-      </p>
+      <h1>{t('payment.confirming')}</h1>
+      <p>{t(late ? 'payment.confirmingLate' : 'payment.confirmingSoon')}</p>
       {late && (
         <Button href="#/paiement" variant="secondary">
-          Je n’ai pas payé : revenir au paiement
+          {t('payment.notPaid')}
         </Button>
       )}
     </div>
