@@ -1,9 +1,25 @@
-import { useState } from 'react';
+import { Fragment, useState, type ReactNode } from 'react';
 import { signIn, type Provider } from '../account';
 import { Logo } from '../components/Logo';
 import { FLOW_STEPS } from '../components/Stepper';
 import { useT } from '../i18n';
 import { href } from '../route';
+
+/** Accord aux conditions : les repères `{terms}` et `{privacy}` du message deviennent des liens vers les pages légales. */
+function ConsentText() {
+  const t = useT();
+  const links: Record<string, ReactNode> = {
+    terms: <a href={href('conditions')}>{t('signIn.consentTerms')}</a>,
+    privacy: <a href={href('confidentialite')}>{t('signIn.consentPrivacy')}</a>,
+  };
+  return (
+    <span>
+      {t('signIn.consent')
+        .split(/\{(\w+)\}/)
+        .map((part, index) => (index % 2 ? <Fragment key={index}>{links[part] ?? part}</Fragment> : part))}
+    </span>
+  );
+}
 
 const PROVIDERS: { id: Provider; name: string; mark: string }[] = [
   { id: 'google', name: 'Google', mark: 'G' },
@@ -63,7 +79,7 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
           {creating ? (
             <label className="consent">
               <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
-              {t('signIn.consent')}
+              <ConsentText />
             </label>
           ) : (
             <div className="notice">

@@ -2,6 +2,12 @@ import app from './version.json';
 
 export const VERSION = app.version;
 
+/** Adresse de contact publiée sur le site (mentions légales, pied de page). */
+export const CONTACT_EMAIL = 'contact@certinass.fr';
+
+/** Date de la dernière mise à jour des pages légales, au format ISO. */
+export const LEGAL_UPDATED = '2026-10-15';
+
 export type Os = 'windows' | 'macos' | 'linux';
 
 /** Identifiants d'installeur compris par la fonction `download` du backend (`supabase/functions/download`). */

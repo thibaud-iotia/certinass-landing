@@ -1,7 +1,8 @@
 import { Button } from '../components/Button';
 import { LanguageSwitch } from '../components/LanguageSwitch';
 import { useT, type MessageKey } from '../i18n';
-import { VERSION } from '../site';
+import { href } from '../route';
+import { CONTACT_EMAIL, VERSION } from '../site';
 
 const INCLUDED: { label: MessageKey; mobileLabel?: MessageKey }[] = [
   { label: 'pricing.includedFeatures', mobileLabel: 'pricing.includedFeaturesMobile' },
@@ -83,6 +84,12 @@ export function Footer() {
         <b className="only-desktop">CertiNass</b>
         <span>v{VERSION}</span>
         <LanguageSwitch />
+        <nav className="footer-legal" aria-label={t('footer.legal')}>
+          <a href={href('mentions-legales')}>{t('legal.notice')}</a>
+          <a href={href('confidentialite')}>{t('legal.privacy')}</a>
+          <a href={href('conditions')}>{t('legal.terms')}</a>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{t('footer.contact')}</a>
+        </nav>
         <span className="disclaimer">
           <span className="only-desktop">{t('footer.disclaimer')}</span>
           <span className="only-mobile">{t('footer.disclaimerMobile')}</span>

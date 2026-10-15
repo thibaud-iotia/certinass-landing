@@ -13,6 +13,12 @@ describe('parseRoute', () => {
     expect(parseRoute('#/inconnu')).toBe('landing');
   });
 
+  it('reconnaît les pages légales', () => {
+    expect(parseRoute('#/mentions-legales')).toBe('mentions-legales');
+    expect(parseRoute('#/confidentialite')).toBe('confidentialite');
+    expect(parseRoute('#/conditions')).toBe('conditions');
+  });
+
   it('ne connaît plus les écrans de paiement', () => {
     expect(parseRoute('#/paiement')).toBe('landing');
     expect(parseRoute('#/confirmation')).toBe('landing');
@@ -20,6 +26,11 @@ describe('parseRoute', () => {
 });
 
 describe('resolveRoute', () => {
+  it('ouvre les pages légales à tous, connecté ou non', () => {
+    expect(resolveRoute('confidentialite', 'anonymous')).toBe('confidentialite');
+    expect(resolveRoute('conditions', 'licensed')).toBe('conditions');
+  });
+
   it('demande un compte avant le téléchargement', () => {
     expect(resolveRoute('acces', 'anonymous')).toBe('connexion');
     expect(resolveRoute('compte', 'anonymous')).toBe('compte');

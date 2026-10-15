@@ -24,7 +24,7 @@ describe('resolveLocale', () => {
 
 describe('format', () => {
   it('remplace les repères ; paramètre absent : le repère reste visible', () => {
-    expect(format('Payer {amount}', { amount: '39,00 €' })).toBe('Payer 39,00 €');
+    expect(format('Activée sur « {device} »', { device: 'PC-Salon' })).toBe('Activée sur « PC-Salon »');
     expect(format('Payer {amount}')).toBe('Payer {amount}');
     expect(format('Payer {amount}', {})).toBe('Payer {amount}');
   });

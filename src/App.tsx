@@ -3,9 +3,10 @@ import { consumeResume } from './account';
 import { Toaster } from './components/Toast';
 import { Access } from './pages/Access';
 import { Landing } from './pages/Landing';
+import { Legal } from './pages/Legal';
 import { SignIn } from './pages/SignIn';
 import { useT } from './i18n';
-import { href, parseRoute, resolveRoute } from './route';
+import { href, isLegal, parseRoute, resolveRoute } from './route';
 import { useAccount } from './useAccount';
 
 function subscribeToHash(notify: () => void) {
@@ -37,6 +38,7 @@ export function App() {
 
   const screen = () => {
     if (route === 'landing') return <Landing state={account.state} />;
+    if (isLegal(route)) return <Legal page={route} />;
     if (account.loading) return <div className="flow-wait theme-dark" role="status" aria-label={t('meta.loading')} />;
     switch (route) {
       case 'compte':
