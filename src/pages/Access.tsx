@@ -7,6 +7,7 @@ import { Logo } from '../components/Logo';
 import { Stepper } from '../components/Stepper';
 import { getLocale, INTL_LOCALE, useT } from '../i18n';
 import { detectOs, DOWNLOADS, type InstallerId } from '../site';
+import { posthog } from '../posthog';
 import type { Account } from '../useAccount';
 
 function formatDate(time: number): string {
@@ -49,6 +50,7 @@ export function Access({ account }: { account: Account }) {
 
   const copy = () => {
     void navigator.clipboard.writeText(key).then(() => {
+      posthog?.capture('licence_key_copied');
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -56,8 +58,10 @@ export function Access({ account }: { account: Account }) {
 
   const free = () => {
     setRelease('busy');
+    posthog?.capture('licence_release_requested');
     releaseLicence().then(
       () => {
+        posthog?.capture('licence_released');
         setRelease('done');
         void refresh();
       },
@@ -68,6 +72,7 @@ export function Access({ account }: { account: Account }) {
   const download = (installer: InstallerId) => {
     setPending(installer);
     setError(null);
+    posthog?.capture('installer_download_requested', { installer, operating_system: os });
     downloadLink(installer)
       .then(
         (url) => window.location.assign(url),
@@ -124,7 +129,7 @@ export function Access({ account }: { account: Account }) {
             <li>{t('access.stepActivate')}</li>
           </ol>
           <div className="licence-key">
-            <code>{key}</code>
+            <code className="ph-no-capture">{key}</code>
             <button type="button" className="link" onClick={copy}>
               {copied ? t('access.copied') : t('access.copy')}
             </button>

@@ -455,3 +455,23 @@ export const access = defineMessages(
     unsigned: 'Unsigned installers: Windows or macOS may show a warning on first launch.',
   },
 );
+
+/** Bandeau de mesure d'audience (PostHog) : rouvert par le lien « Cookies » du pied de page. */
+export const consent = defineMessages(
+  {
+    label: 'Mesure d’audience',
+    text: 'Avec votre accord, nous mesurons l’audience du site et enregistrons des sessions anonymisées (champs masqués) pour l’améliorer. Sans accord, les visites sont seulement comptées, sans rien stocker dans votre navigateur.',
+    more: 'En savoir plus',
+    accept: 'Accepter',
+    refuse: 'Refuser',
+    manage: 'Cookies',
+  },
+  {
+    label: 'Audience measurement',
+    text: 'With your consent, we measure the website’s audience and record anonymised sessions (fields masked) to improve it. Without consent, visits are only counted, with nothing stored in your browser.',
+    more: 'Learn more',
+    accept: 'Accept',
+    refuse: 'Decline',
+    manage: 'Cookies',
+  },
+);

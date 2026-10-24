@@ -1,5 +1,6 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { consumeResume } from './account';
+import { ConsentBanner } from './components/ConsentBanner';
 import { Toaster } from './components/Toast';
 import { Access } from './pages/Access';
 import { Landing } from './pages/Landing';
@@ -52,6 +53,7 @@ export function App() {
   return (
     <>
       {screen()}
+      <ConsentBanner />
       <Toaster />
     </>
   );

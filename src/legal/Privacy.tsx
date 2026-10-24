@@ -62,6 +62,22 @@ export const PRIVACY: Record<Locale, ReactNode> = {
               <td>Intérêt légitime</td>
               <td>Durée de conservation des journaux de l’hébergeur, quelques jours en général</td>
             </tr>
+            <tr>
+              <td>
+                Mesure d’audience, avec votre accord : pages vues, clics, étapes du parcours (connexion, téléchargement,
+                copie de la clé), erreurs du site, enregistrement des sessions (champs et clé de licence masqués) et
+                identifiant de votre compte si vous êtes connecté
+              </td>
+              <td>Comprendre l’usage du site et corriger ses erreurs</td>
+              <td>Consentement</td>
+              <td>Un an ; enregistrements de session : 30 jours</td>
+            </tr>
+            <tr>
+              <td>Sans votre accord : visites comptées sans cookie ni identifiant gardé dans votre navigateur</td>
+              <td>Compter les visites</td>
+              <td>Intérêt légitime</td>
+              <td>Un an</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -102,20 +118,25 @@ export const PRIVACY: Record<Locale, ReactNode> = {
           <b>GitHub, Inc.</b> — hébergement du site (GitHub Pages) et des installeurs, aux États-Unis ;
         </li>
         <li>
-          <b>Google LLC</b> ou <b>GitHub, Inc.</b> — connexion à votre compte, selon le service que vous choisissez.
+          <b>Google LLC</b> ou <b>GitHub, Inc.</b> — connexion à votre compte, selon le service que vous choisissez ;
+        </li>
+        <li>
+          <b>PostHog, Inc.</b> — mesure d’audience, hébergée dans l’Union européenne (Allemagne), sans conserver votre
+          adresse IP.
         </li>
       </ul>
       <p>
-        Supabase, GitHub et Google sont des sociétés américaines : un accès depuis les États-Unis est possible. Ces
+        Supabase, GitHub, Google et PostHog sont des sociétés américaines : un accès depuis les États-Unis est possible. Ces
         transferts sont encadrés par le Data Privacy Framework UE–États-Unis et par les clauses contractuelles types de
         la Commission européenne.
       </p>
 
       <h2>Cookies et stockage</h2>
       <p>
-        Le site n’utilise aucun cookie publicitaire ni outil de mesure d’audience. Il enregistre dans votre navigateur
-        uniquement votre session de connexion et votre choix de langue, nécessaires à son fonctionnement : aucun
-        consentement n’est donc requis.
+        Le site n’utilise aucun cookie publicitaire. Il enregistre dans votre navigateur votre session de connexion,
+        votre choix de langue et votre choix pour la mesure d’audience, nécessaires à son fonctionnement. La mesure
+        d’audience (PostHog) n’y enregistre un identifiant qu’avec votre accord, demandé à votre première visite ; vous
+        pouvez changer d’avis à tout moment avec le lien « Cookies » en bas de page.
       </p>
 
       <h2>Vos droits</h2>
@@ -191,6 +212,22 @@ export const PRIVACY: Record<Locale, ReactNode> = {
               <td>Legitimate interest</td>
               <td>The host’s log retention period, usually a few days</td>
             </tr>
+            <tr>
+              <td>
+                Audience measurement, with your consent: pages viewed, clicks, steps of the sign-up flow (sign-in,
+                download, key copy), website errors, session recordings (fields and licence key masked) and your account
+                identifier if you are signed in
+              </td>
+              <td>Understand how the website is used and fix its errors</td>
+              <td>Consent</td>
+              <td>One year; session recordings: 30 days</td>
+            </tr>
+            <tr>
+              <td>Without your consent: visits counted with no cookie and no identifier kept in your browser</td>
+              <td>Count visits</td>
+              <td>Legitimate interest</td>
+              <td>One year</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -229,18 +266,24 @@ export const PRIVACY: Record<Locale, ReactNode> = {
           <b>GitHub, Inc.</b> — hosting of the website (GitHub Pages) and the installers, in the United States;
         </li>
         <li>
-          <b>Google LLC</b> or <b>GitHub, Inc.</b> — signing in to your account, depending on the service you choose.
+          <b>Google LLC</b> or <b>GitHub, Inc.</b> — signing in to your account, depending on the service you choose;
+        </li>
+        <li>
+          <b>PostHog, Inc.</b> — audience measurement, hosted in the European Union (Germany), without keeping your IP
+          address.
         </li>
       </ul>
       <p>
-        Supabase, GitHub and Google are US companies: access from the United States is possible. These transfers are
+        Supabase, GitHub, Google and PostHog are US companies: access from the United States is possible. These transfers are
         covered by the EU–US Data Privacy Framework and by the European Commission’s standard contractual clauses.
       </p>
 
       <h2>Cookies and storage</h2>
       <p>
-        The website uses no advertising cookies and no audience measurement. It stores only your sign-in session and
-        your language choice in your browser, which it needs to work: no consent is therefore required.
+        The website uses no advertising cookies. It stores in your browser your sign-in session, your language choice
+        and your audience-measurement choice, which it needs to work. Audience measurement (PostHog) stores an
+        identifier there only with your consent, asked on your first visit; you can change your mind at any time with
+        the “Cookies” link at the bottom of the page.
       </p>
 
       <h2>Your rights</h2>

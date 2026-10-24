@@ -33,6 +33,21 @@ jobs:
           # Backend du site : variables du dépôt (la clé « anon » est publique par nature).
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          # Mesure d'audience : jeton public du projet PostHog et son hôte (https://eu.i.posthog.com).
+          VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}
+          VITE_POSTHOG_HOST: ${{ vars.VITE_POSTHOG_HOST }}
+      # Cartes de code envoyées à PostHog (erreurs lisibles), si le secret existe ; jamais publiées avec le site.
+      - if: github.ref == 'refs/heads/main'
+        run: |
+          if [ -z "$POSTHOG_CLI_API_KEY" ]; then echo "Secret POSTHOG_CLI_API_KEY absent : cartes non envoyées."; exit 0; fi
+          npm install -g @posthog/cli
+          posthog-cli sourcemap inject --directory dist
+          posthog-cli sourcemap upload --directory dist
+        env:
+          POSTHOG_CLI_HOST: https://eu.posthog.com
+          POSTHOG_CLI_PROJECT_ID: ${{ vars.POSTHOG_CLI_PROJECT_ID }}
+          POSTHOG_CLI_API_KEY: ${{ secrets.POSTHOG_CLI_API_KEY }}
+      - run: find dist -name '*.map' -delete
       - if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
       - if: github.ref == 'refs/heads/main'
