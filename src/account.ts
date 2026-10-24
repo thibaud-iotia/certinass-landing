@@ -1,6 +1,7 @@
 // Backend du site (dossier `supabase/` du dépôt de l'application) : comptes, clés de licence, installeurs.
 import { createClient, type Session } from '@supabase/supabase-js';
 import { t } from './i18n';
+import { posthog } from './posthog';
 import { href } from './route';
 import type { InstallerId } from './site';
 
@@ -87,6 +88,7 @@ export async function releaseLicence(): Promise<void> {
 export async function deleteAccount(): Promise<void> {
   const { error } = await backend().functions.invoke('delete-account');
   if (error) throw error;
+  posthog?.capture('account_deleted');
   // Retour à la page de présentation avant la déconnexion, qui renverrait sinon vers l'écran de connexion.
   window.location.replace(href('landing'));
   // Le compte n'existe plus côté serveur : seule la session de ce navigateur reste à effacer.

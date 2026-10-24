@@ -23,6 +23,13 @@ comptes sont indisponibles.
 
 Le parcours d'achat (paiement Lemon Squeezy) est conservé sur la branche `archive/paiement-lemonsqueezy`.
 
+## Mesure d'audience
+
+PostHog (projet UE), configuré dans `src/posthog.ts` avec `VITE_POSTHOG_KEY` et `VITE_POSTHOG_HOST` (`.env.example`,
+variables du dépôt GitHub pour la CI). Rien n'est envoyé avant le choix du visiteur dans le bandeau ; refus = comptage
+sans cookie. Sans ces variables : ni mesure ni bandeau. Sur `main`, la CI envoie les cartes de code à PostHog si le
+secret `POSTHOG_CLI_API_KEY` et la variable `POSTHOG_CLI_PROJECT_ID` existent, puis les retire de `dist/`.
+
 ## Langues
 
 Le site est en français et en anglais (`src/i18n/`, calqué sur l'application). La langue suit le navigateur, puis le

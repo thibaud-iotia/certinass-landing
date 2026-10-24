@@ -4,6 +4,7 @@ import { Logo } from '../components/Logo';
 import { FLOW_STEPS } from '../components/Stepper';
 import { useT } from '../i18n';
 import { href } from '../route';
+import { posthog } from '../posthog';
 
 /** Accord aux conditions : les repères `{terms}` et `{privacy}` du message deviennent des liens vers les pages légales. */
 function ConsentText() {
@@ -36,6 +37,7 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
 
   const connect = (provider: Provider) => {
     setError(null);
+    posthog?.capture('authentication_started', { flow: creating ? 'sign_up' : 'sign_in', provider });
     signIn(provider).catch((cause: Error) => setError(cause.message));
   };
 

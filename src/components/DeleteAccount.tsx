@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { deleteAccount } from '../account';
 import { useT } from '../i18n';
+import { posthog } from '../posthog';
 import { ConfirmDialog } from './ConfirmDialog';
 import { notify } from './Toast';
 
@@ -12,6 +13,7 @@ export function DeleteAccount({ licensed }: { licensed: boolean }) {
 
   const remove = () => {
     setState('busy');
+    posthog?.capture('account_deletion_requested');
     deleteAccount().then(
       // L'écran a déjà changé : le message s'affiche sur la page de présentation.
       () => notify('flow.deleted'),

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { fetchBetaEnd, fetchLicence, supabase, type Licence, type Session } from './account';
+import { forgetUser, getConsent, posthog, subscribeConsent } from './posthog';
 import type { AccountState } from './route';
 
 export interface Account {
@@ -30,10 +31,17 @@ async function load(): Promise<Loaded> {
   return { licence, betaEndsAt };
 }
 
+const accountLog = {
+  info: (message: string, attributes: Record<string, string>) => posthog?.logger.info(message, { logger: 'account', ...attributes }),
+  warn: (message: string, attributes: Record<string, string>) => posthog?.logger.warn(message, { logger: 'account', ...attributes }),
+};
+
 export function useAccount(): Account {
   // `undefined` : pas encore chargé.
   const [session, setSession] = useState<Session | null | undefined>(supabase ? undefined : null);
   const [loaded, setLoaded] = useState<Loaded | undefined>(undefined);
+  const previousUserId = useRef<string | null | undefined>(undefined);
+  const consent = useSyncExternalStore(subscribeConsent, getConsent);
   const userId = session?.user.id;
 
   useEffect(() => {
@@ -43,9 +51,28 @@ export function useAccount(): Account {
     return () => data.subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (session === undefined) return;
+    const nextUserId = session?.user.id ?? null;
+    // Déconnexion ou autre compte : les visites suivantes ne sont plus rattachées au compte précédent.
+    if (previousUserId.current && previousUserId.current !== nextUserId) forgetUser();
+    previousUserId.current = nextUserId;
+    // Rattacher les visites au compte (identifiant seul, sans e-mail) suppose l'accord du visiteur.
+    if (nextUserId && consent === 'granted') posthog?.identify(nextUserId);
+  }, [session, consent]);
+
   const refresh = useCallback(async () => {
     // Une lecture en échec ne doit pas faire passer un compte pour un compte sans licence : on garde l'état connu.
-    await load().then(setLoaded, (error) => console.error(error));
+    await load().then(
+      (next) => {
+        setLoaded(next);
+        accountLog.info('account data refreshed', { operation: 'manual_refresh' });
+      },
+      (error) => {
+        console.error(error);
+        accountLog.warn('account data refresh failed', { operation: 'manual_refresh' });
+      },
+    );
   }, []);
 
   useEffect(() => {
@@ -53,10 +80,16 @@ export function useAccount(): Account {
     if (!userId) return;
     let stale = false;
     load().then(
-      (next) => !stale && setLoaded(next),
+      (next) => {
+        if (stale) return;
+        setLoaded(next);
+        accountLog.info('account data loaded', { operation: 'session_load' });
+      },
       (error) => {
         console.error(error);
-        if (!stale) setLoaded({ licence: null, betaEndsAt: null });
+        if (stale) return;
+        setLoaded({ licence: null, betaEndsAt: null });
+        accountLog.warn('account data load failed', { operation: 'session_load' });
       },
     );
     return () => {

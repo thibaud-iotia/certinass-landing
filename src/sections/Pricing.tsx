@@ -1,6 +1,7 @@
 import { Button } from '../components/Button';
 import { LanguageSwitch } from '../components/LanguageSwitch';
 import { useT, type MessageKey } from '../i18n';
+import { posthog, reviewConsent } from '../posthog';
 import { href } from '../route';
 import { CONTACT_EMAIL, VERSION } from '../site';
 
@@ -89,6 +90,11 @@ export function Footer() {
           <a href={href('confidentialite')}>{t('legal.privacy')}</a>
           <a href={href('conditions')}>{t('legal.terms')}</a>
           <a href={`mailto:${CONTACT_EMAIL}`}>{t('footer.contact')}</a>
+          {posthog && (
+            <button type="button" className="link" onClick={reviewConsent}>
+              {t('consent.manage')}
+            </button>
+          )}
         </nav>
         <span className="disclaimer">
           <span className="only-desktop">{t('footer.disclaimer')}</span>

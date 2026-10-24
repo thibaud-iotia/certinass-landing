@@ -6,7 +6,7 @@ export const VERSION = app.version;
 export const CONTACT_EMAIL = 'contact@certinass.fr';
 
 /** Date de la dernière mise à jour des pages légales, au format ISO. */
-export const LEGAL_UPDATED = '2026-10-15';
+export const LEGAL_UPDATED = '2026-10-24';
 
 export type Os = 'windows' | 'macos' | 'linux';
 
