@@ -1,9 +1,10 @@
 import posthog from 'posthog-js';
 
-// Mesure d'audience (PostHog, hébergé dans l'UE). Rien n'est envoyé avant le choix du visiteur (bandeau
-// `ConsentBanner`) ; s'il refuse, les visites sont comptées sans rien enregistrer dans son navigateur (mode sans
-// cookie, activé aussi dans les réglages du projet PostHog). Sans `VITE_POSTHOG_KEY` et `VITE_POSTHOG_HOST`, pas de
-// mesure, pas de bandeau.
+// Mesure d'audience (PostHog, hébergé dans l'UE). Tant que le visiteur n'a pas accepté (bandeau `ConsentBanner`),
+// qu'il ait refusé ou pas encore répondu, ses visites sont comptées sans rien enregistrer dans son navigateur (mode
+// sans cookie, activé aussi dans les réglages du projet PostHog) ; l'enregistrement de session et l'identifiant
+// persistant n'arrivent qu'avec son accord. Sans `VITE_POSTHOG_KEY` et `VITE_POSTHOG_HOST`, pas de mesure, pas de
+// bandeau.
 
 export type Consent = 'granted' | 'denied' | 'pending';
 
@@ -17,6 +18,9 @@ if (client) {
     api_host: host,
     defaults: '2026-05-30',
     cookieless_mode: 'on_reject',
+    // Sans réponse au bandeau, le visiteur est traité comme ayant refusé : compté en mode sans cookie au lieu d'être
+    // ignoré. Son choix reste « pending » (`get_explicit_consent_status`), donc le bandeau reste affiché.
+    opt_out_capturing_by_default: true,
     capture_exceptions: {
       capture_unhandled_errors: true,
       capture_unhandled_rejections: true,
