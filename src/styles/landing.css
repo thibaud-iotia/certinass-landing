@@ -191,12 +191,14 @@ img { display: block; max-width: 100%; }
 
 /* ---------- Pied de page ---------- */
 .footer { background: #08080C; color: var(--copy); font-size: 14px; padding-block: 24px; }
-.footer .wrap { display: flex; gap: 24px; }
+.footer .wrap { display: flex; align-items: center; gap: 24px; }
 .footer b { color: #F4F4F8; }
-.footer a { color: #F5254A; }
-.footer a:hover { color: #FF3D57; }
+.footer a, .footer .link { color: #F5254A; }
+.footer a:hover, .footer .link:hover { color: #FF3D57; }
+/* « Cookies » est un bouton : même typo et même boîte que les liens voisins pour rester aligné. */
+.footer .link { font: inherit; line-height: inherit; text-align: left; }
 .disclaimer { margin-left: auto; }
-.footer-legal { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.footer-legal { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
 
 /* ---------- Pages légales ---------- */
 .legal-bar { background: var(--grad-hero), #08080C; padding-block: 20px; }
