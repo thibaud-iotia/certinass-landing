@@ -79,7 +79,7 @@ export function SignIn({ mode }: { mode: 'compte' | 'connexion' }) {
             ))}
           </div>
           {creating ? (
-            <label className="consent">
+            <label className="terms-consent">
               <input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
               <ConsentText />
             </label>

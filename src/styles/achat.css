@@ -123,9 +123,9 @@ button { font: inherit; }
 .provider-mark { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; }
 .provider-google { background: #F4F4F8; color: #4285F4; font-size: 13px; }
 .provider-github { background: #14141f; color: #fff; font-size: 11px; }
-.consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: var(--copy); cursor: pointer; }
-.consent a { color: var(--text-link); }
-.consent input { width: 18px; height: 18px; margin: 0; flex: none; accent-color: #F5254A; }
+.terms-consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.4; color: var(--copy); cursor: pointer; }
+.terms-consent a { color: var(--text-link); }
+.terms-consent input { width: 18px; height: 18px; margin: 0; flex: none; accent-color: #F5254A; }
 .notice {
   background: #FFF7E6; border: 1.5px solid #F5A524; border-radius: 14px; padding: 14px; font-size: 14px; line-height: 1.5; color: #6b4a00;
 }
