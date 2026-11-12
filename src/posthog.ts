@@ -11,7 +11,8 @@ export type Consent = 'granted' | 'denied' | 'pending';
 const key = import.meta.env.VITE_POSTHOG_KEY as string | undefined;
 const host = import.meta.env.VITE_POSTHOG_HOST as string | undefined;
 
-const client = key && host ? posthog : null;
+// Pré-rendu des pages (Node, `src/prerender.tsx`) : pas de navigateur, pas de mesure.
+const client = key && host && typeof window !== 'undefined' ? posthog : null;
 
 if (client) {
   client.init(key!, {

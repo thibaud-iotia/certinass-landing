@@ -3,18 +3,39 @@ import { defineMessages } from './core';
 
 export const meta = defineMessages(
   {
-    title: 'CertiNass — Votre NAS Synology, enfin agréable à utiliser',
+    // Onglet et résultat Google : environ 60 caractères pour le titre, 155 pour la description.
+    title: 'CertiNass — Gestionnaire de NAS Synology avec assistant IA',
     description:
-      'CertiNass, le gestionnaire de NAS Synology pour Windows, macOS et Linux : détection automatique, fichiers, assistant IA. Rien à installer sur le NAS.',
+      'Gérez les fichiers de votre NAS Synology depuis Windows, macOS ou Linux, avec un assistant IA. Alternative à File Station, rien à installer. Bêta gratuite.',
+    shareTitle: 'CertiNass — Votre NAS Synology, enfin agréable à utiliser',
+    shareAlt: 'CertiNass, gestionnaire de NAS Synology : l’assistant IA propose des actions à valider',
     loading: 'Chargement',
     language: 'Langue',
   },
   {
-    title: 'CertiNass — Your Synology NAS, finally a pleasure to use',
+    title: 'CertiNass — Synology NAS manager with an AI assistant',
     description:
-      'CertiNass, the Synology NAS manager for Windows, macOS and Linux: automatic discovery, files, AI assistant. Nothing to install on the NAS.',
+      'Manage the files on your Synology NAS from Windows, macOS or Linux, with an AI assistant. A File Station alternative, nothing to install. Free beta.',
+    shareTitle: 'CertiNass — Your Synology NAS, finally a pleasure to use',
+    shareAlt: 'CertiNass, Synology NAS manager: the AI assistant suggests actions to approve',
     loading: 'Loading',
     language: 'Language',
+  },
+);
+
+// Données structurées (schema.org) des pages, lues par les moteurs de recherche, pas affichées.
+export const seo = defineMessages(
+  {
+    category: 'Gestionnaire de NAS Synology',
+    requirements: 'NAS Synology sous DSM 7',
+    features:
+      'Détection automatique des NAS, explorateur de fichiers, recherche sur tous les NAS, aperçus image, vidéo et PDF, éditeur de texte, terminal SSH, partages privés, import depuis un lien, assistant IA',
+  },
+  {
+    category: 'Synology NAS manager',
+    requirements: 'Synology NAS running DSM 7',
+    features:
+      'Automatic NAS discovery, file explorer, search across every NAS, image, video and PDF previews, text editor, SSH terminal, private sharing, import from a link, AI assistant',
   },
 );
 

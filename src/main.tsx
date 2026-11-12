@@ -11,13 +11,16 @@ import './styles/achat.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import { syncDocument } from './i18n';
+import { redirectToChosenLocale, syncDocument } from './i18n';
 import './posthog';
 
-syncDocument();
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+// Le HTML pré-rendu (`src/prerender.tsx`) est remplacé par l'application : l'état du compte et l'écran demandé
+// (`#/acces`…) ne sont connus qu'ici.
+if (!redirectToChosenLocale()) {
+  syncDocument();
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}

@@ -51,3 +51,17 @@ export function placeholders(message: string): string[] {
 export function defineMessages<F extends Record<string, string>>(fr: F, en: { [K in keyof F]: string }): Record<Locale, Record<keyof F, string>> {
   return { fr, en };
 }
+
+/** Dossier de chaque langue sous la racine du site : le français à la racine, l'anglais sous `en/`. */
+export const LOCALE_DIR: Record<Locale, string> = { fr: '', en: 'en/' };
+
+/** Langue imposée par l'adresse : `…/en/` (ou `…/en/index.html`) est en anglais, tout le reste en français. */
+export function localeFromPath(pathname: string): Locale {
+  return /\/en(\/(index\.html)?)?$/.test(pathname) ? 'en' : DEFAULT_LOCALE;
+}
+
+/** Lien relatif de la page d'une langue vers celle d'une autre, valable sous un domaine comme sous un sous-dossier. */
+export function localeHref(target: Locale, from: Locale): string {
+  const root = LOCALE_DIR[from] ? '../' : './';
+  return root + LOCALE_DIR[target];
+}

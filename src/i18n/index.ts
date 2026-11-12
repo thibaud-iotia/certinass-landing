@@ -1,32 +1,33 @@
 // Traduction du site : `t('domaine.cle', { param })` dans la langue courante, `useT()` dans les composants
 // pour qu'ils se redessinent au changement de langue.
 import { useSyncExternalStore } from 'react';
-import { DEFAULT_LOCALE, format, isLocale, resolveLocale, type Locale, type Params } from './core';
-import { access, assistant, consent, faq, features, flow, footer, hero, legal, meta, nav, pricing, signIn, turnKey } from './messages';
+import { DEFAULT_LOCALE, format, isLocale, localeFromPath, localeHref, type Locale, type Params } from './core';
+import { access, assistant, consent, faq, features, flow, footer, hero, legal, meta, nav, pricing, seo, signIn, turnKey } from './messages';
 
 export * from './core';
 
 /** Tous les messages, par domaine. */
-export const CATALOG = { meta, nav, hero, turnKey, assistant, features, pricing, faq, footer, legal, flow, signIn, access, consent };
+export const CATALOG = { meta, seo, nav, hero, turnKey, assistant, features, pricing, faq, footer, legal, flow, signIn, access, consent };
 
 type Catalog = typeof CATALOG;
 export type MessageKey = { [NS in keyof Catalog]: `${NS & string}.${keyof Catalog[NS]['fr'] & string}` }[keyof Catalog];
 
 // Choix du visiteur, gardé d'une visite à l'autre.
 const STORAGE_KEY = 'certinass.langue';
-/** `?lang=en` : lien vers le site dans une langue donnée. */
+/** `?lang=en` : ancien lien vers le site dans une langue donnée, redirigé vers la page de cette langue. */
 const QUERY_PARAM = 'lang';
 
 function stored(): string | null {
   try {
     return localStorage.getItem(STORAGE_KEY);
   } catch {
-    // Stockage refusé (navigation privée, réglages du navigateur) : la langue du navigateur décide.
+    // Stockage refusé (navigation privée, réglages du navigateur) : l'adresse décide.
     return null;
   }
 }
 
-function remember(locale: Locale): void {
+/** Garde le choix du visiteur : sa prochaine visite sur l'autre page de langue l'y ramène. */
+export function rememberLocale(locale: Locale): void {
   try {
     localStorage.setItem(STORAGE_KEY, locale);
   } catch {
@@ -34,15 +35,30 @@ function remember(locale: Locale): void {
   }
 }
 
-function detect(): Locale {
-  const asked = new URLSearchParams(window.location.search).get(QUERY_PARAM);
-  // Le retour de Google ou GitHub perd `?lang=` : le choix du lien est gardé comme celui du sélecteur.
-  if (isLocale(asked)) remember(asked);
-  return resolveLocale(isLocale(asked) ? asked : stored(), navigator.languages);
+const inBrowser = typeof window !== 'undefined';
+// Chaque langue a sa page (`/` et `/en/`), que les moteurs de recherche indexent séparément : l'adresse fait foi.
+let current: Locale = inBrowser ? localeFromPath(window.location.pathname) : DEFAULT_LOCALE;
+
+/**
+ * Envoie le visiteur sur la page de la langue demandée par `?lang=` ou choisie lors d'une visite précédente.
+ * Jamais d'après la langue du navigateur : le robot de Google, en anglais, ne verrait plus la page française.
+ * Renvoie vrai si la page change : inutile de l'afficher.
+ */
+export function redirectToChosenLocale(): boolean {
+  if (!inBrowser) return false;
+  const url = new URL(window.location.href);
+  const asked = url.searchParams.get(QUERY_PARAM);
+  if (isLocale(asked)) rememberLocale(asked);
+  url.searchParams.delete(QUERY_PARAM);
+  const wanted = isLocale(asked) ? asked : stored();
+  if (isLocale(wanted) && wanted !== current) {
+    window.location.replace(new URL(localeHref(wanted, current), url).href + url.search + url.hash);
+    return true;
+  }
+  if (asked !== null) window.history.replaceState(null, '', url.href);
+  return false;
 }
 
-const inBrowser = typeof window !== 'undefined';
-let current: Locale = inBrowser ? detect() : DEFAULT_LOCALE;
 const listeners = new Set<() => void>();
 
 export function getLocale(): Locale {
@@ -73,7 +89,6 @@ export function syncDocument(): void {
 export function setLocale(locale: Locale): void {
   if (locale === current) return;
   current = locale;
-  if (inBrowser) remember(locale);
   syncDocument();
   for (const notify of listeners) notify();
 }

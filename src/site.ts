@@ -2,6 +2,9 @@ import app from './version.json';
 
 export const VERSION = app.version;
 
+/** Adresse publique du site, avec sa barre finale : adresses canoniques, sitemap, aperçus de partage. */
+export const SITE_URL = 'https://certinass.tcharb.fr/';
+
 /** Adresse de contact publiée sur le site (mentions légales, pied de page). */
 export const CONTACT_EMAIL = 'contact@certinass.fr';
 

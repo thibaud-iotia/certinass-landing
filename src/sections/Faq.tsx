@@ -1,14 +1,57 @@
 import type { ReactNode } from 'react';
 import { useLocale, useT, type Locale } from '../i18n';
 
-interface Question {
+export interface Question {
   question: string;
   answer: ReactNode;
 }
 
 // Réponses mises en forme : chaque langue a sa liste, dans le même ordre.
-const QUESTIONS: Record<Locale, Question[]> = {
+export const QUESTIONS: Record<Locale, Question[]> = {
   fr: [
+    {
+      question: 'Quelle différence avec File Station et Synology Drive ?',
+      answer: (
+        <>
+          <p>
+            File Station s’utilise dans le navigateur, à l’intérieur de DSM. Synology Drive demande d’installer le
+            paquet Drive Server sur le NAS et sert d’abord à synchroniser des dossiers.
+          </p>
+          <p>
+            CertiNass est un gestionnaire de NAS Synology sous forme d’application de bureau, pour Windows, macOS et
+            Linux. Il se connecte directement à l’API Web de DSM 7, sans rien installer sur le NAS, et réunit
+            explorateur de fichiers, recherche sur tous vos NAS, aperçus, éditeur de texte, terminal SSH, partages
+            privés et assistant IA.
+          </p>
+        </>
+      ),
+    },
+    {
+      question: 'Que fait l’assistant IA ?',
+      answer: (
+        <>
+          <p>
+            Vous décrivez ce que vous voulez en langage courant : « Qu’est-ce qui prend de la place ? », « Range les
+            photos de juillet », « Supprime les doublons ». L’assistant analyse le NAS et propose des actions, que
+            vous validez étape par étape.
+          </p>
+          <p>
+            Chaque action reste annulable pendant 90 jours depuis le journal. L’assistant, propulsé par Claude, utilise
+            votre propre clé API ; il est désactivé par défaut et n’envoie le contenu de vos fichiers qu’avec votre
+            accord.
+          </p>
+        </>
+      ),
+    },
+    {
+      question: 'Quels NAS sont compatibles ?',
+      answer: (
+        <p>
+          Les NAS Synology sous DSM 7. CertiNass détecte ceux de votre réseau local et se connecte aussi à un NAS
+          distant, avec double authentification. Le nombre de NAS n’est pas limité.
+        </p>
+      ),
+    },
     {
       question: 'Pourquoi les installeurs ne sont-ils pas signés ?',
       answer: (
@@ -73,6 +116,47 @@ const QUESTIONS: Record<Locale, Question[]> = {
     },
   ],
   en: [
+    {
+      question: 'How is it different from File Station and Synology Drive?',
+      answer: (
+        <>
+          <p>
+            File Station runs in the browser, inside DSM. Synology Drive requires installing the Drive Server package
+            on the NAS and is mainly built for syncing folders.
+          </p>
+          <p>
+            CertiNass is a Synology NAS manager in the form of a desktop app for Windows, macOS and Linux. It connects
+            straight to the DSM 7 Web API, with nothing to install on the NAS, and brings together a file explorer,
+            search across all your NAS devices, previews, a text editor, an SSH terminal, private sharing and an AI
+            assistant.
+          </p>
+        </>
+      ),
+    },
+    {
+      question: 'What does the AI assistant do?',
+      answer: (
+        <>
+          <p>
+            You describe what you want in plain language: “What’s taking up space?”, “Sort the July photos”, “Delete
+            the duplicates”. The assistant analyses the NAS and suggests actions, which you approve step by step.
+          </p>
+          <p>
+            Every action can be undone for 90 days from the log. The assistant, powered by Claude, uses your own API
+            key; it is off by default and only sends the content of your files with your consent.
+          </p>
+        </>
+      ),
+    },
+    {
+      question: 'Which NAS devices are supported?',
+      answer: (
+        <p>
+          Synology NAS devices running DSM 7. CertiNass discovers the ones on your local network and also connects to
+          a remote NAS, with two-factor authentication. The number of NAS devices is unlimited.
+        </p>
+      ),
+    },
     {
       question: 'Why aren’t the installers signed?',
       answer: (
